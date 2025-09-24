@@ -2,7 +2,7 @@ Using pre-set license
 Built from '6000.0/staging' branch; Version is '6000.0.56f1 (9c7b5e468860) revision 10255198'; Using compiler version '193933523'; Build Type 'Release'
 OS: 'Windows 11  (10.0.26100) 64bit Enterprise' Language: 'en' Physical Memory: 65241 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
-Date: 2025-09-24T13:29:36Z
+Date: 2025-09-24T14:22:45Z
 
 COMMAND LINE ARGUMENTS:
 C:\Program Files\Unity\Hub\Editor\6000.0.56f1\Editor\Unity.exe
@@ -16,7 +16,7 @@ C:/Users/F.Tjahjana1/Documents/GitHub/cupicafe/cupicafe
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-60467
+63174
 -job-worker-count
 15
 -background-job-worker-count
@@ -62,12 +62,12 @@ C:/Users/F.Tjahjana1/Documents/GitHub/cupicafe/cupicafe
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gi-baking-worker=262144"
     "memorysetup-temp-allocator-size-gfx=262144"
-Player connection [39652]  Target information:
+Player connection [29104]  Target information:
 
-Player connection [39652]  * "[IP] 10.6.28.197 [Port] 0 [Flags] 2 [Guid] 280585665 [EditorId] 280585665 [Version] 1048832 [Id] WindowsEditor(7,DW003949) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+Player connection [29104]  * "[IP] 10.6.28.197 [Port] 0 [Flags] 2 [Guid] 2114831746 [EditorId] 2114831746 [Version] 1048832 [Id] WindowsEditor(7,DW003949) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
 
-Player connection [39652] Host joined multi-casting on [225.0.0.222:54997]...
-Player connection [39652] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Player connection [29104] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [29104] Host joined alternative multi-casting on [225.0.0.222:34997]...
 JobSystem: Creating JobQueue using job-worker-count value 15
 Input System module state changed to: Initialized.
 [Physics::Module] Initialized fallback backend.
@@ -79,7 +79,7 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
-Refreshing native plugins compatible for Editor in 4.52 ms, found 3 plugins.
+Refreshing native plugins compatible for Editor in 6.77 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 6000.0.56f1 (9c7b5e468860)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/Resources/UnitySubsystems
@@ -95,7 +95,7 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56808
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56348
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
@@ -104,47 +104,47 @@ Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.56f1/
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/PlaybackEngines/MetroSupport/UnityEditor.UWP.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/6000.0.56f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
-Registered in 0.012193 seconds.
-- Loaded All Assemblies, in  0.360 seconds
+Registered in 0.010484 seconds.
+- Loaded All Assemblies, in  0.328 seconds
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 Native extension for iOS target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 321 ms
+Android Extension - Scanning For ADB Devices 311 ms
 Native extension for UWP target not found
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.585 seconds
-Domain Reload Profiling: 945ms
-	BeginReloadAssembly (140ms)
+- Finished resetting the current domain, in  0.565 seconds
+Domain Reload Profiling: 892ms
+	BeginReloadAssembly (126ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
 		CreateAndSetChildDomain (1ms)
-	RebuildCommonClasses (27ms)
-	RebuildNativeTypeToScriptingClass (8ms)
-	initialDomainReloadingComplete (44ms)
-	LoadAllAssembliesAndSetupDomain (140ms)
-		LoadAssemblies (144ms)
+	RebuildCommonClasses (25ms)
+	RebuildNativeTypeToScriptingClass (7ms)
+	initialDomainReloadingComplete (40ms)
+	LoadAllAssembliesAndSetupDomain (127ms)
+		LoadAssemblies (129ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (131ms)
-			TypeCache.Refresh (131ms)
-				TypeCache.ScanAssembly (120ms)
+		AnalyzeDomain (121ms)
+			TypeCache.Refresh (120ms)
+				TypeCache.ScanAssembly (110ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (586ms)
+	FinalizeReload (565ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (556ms)
+		SetupLoadedEditorAssemblies (538ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (408ms)
+			InitializePlatformSupportModulesInManaged (393ms)
 			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (36ms)
+			BeforeProcessingInitializeOnLoad (35ms)
 			ProcessInitializeOnLoadAttributes (72ms)
-			ProcessInitializeOnLoadMethodAttributes (37ms)
+			ProcessInitializeOnLoadMethodAttributes (35ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -153,8 +153,8 @@ Domain Reload Profiling: 945ms
 Worker process is ready to serve import requests
 Import Worker Mode flag is 0x00
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.745 seconds
-Refreshing native plugins compatible for Editor in 5.40 ms, found 3 plugins.
+- Loaded All Assemblies, in  0.682 seconds
+Refreshing native plugins compatible for Editor in 2.53 ms, found 3 plugins.
 Native extension for iOS target not found
 Native extension for Android target not found
 Native extension for UWP target not found
@@ -166,116 +166,240 @@ Package Manager log level set to [2]
 [Package Manager] Unable to send message (not connected to server process).
 [Package Manager] Cannot connect to Unity Package Manager local server
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.555 seconds
-Domain Reload Profiling: 1297ms
-	BeginReloadAssembly (177ms)
+- Finished resetting the current domain, in  0.491 seconds
+Domain Reload Profiling: 1170ms
+	BeginReloadAssembly (167ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (4ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (19ms)
-	RebuildCommonClasses (26ms)
-	RebuildNativeTypeToScriptingClass (8ms)
-	initialDomainReloadingComplete (35ms)
-	LoadAllAssembliesAndSetupDomain (495ms)
-		LoadAssemblies (441ms)
+		CreateAndSetChildDomain (20ms)
+	RebuildCommonClasses (23ms)
+	RebuildNativeTypeToScriptingClass (7ms)
+	initialDomainReloadingComplete (30ms)
+	LoadAllAssembliesAndSetupDomain (450ms)
+		LoadAssemblies (397ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (181ms)
-			TypeCache.Refresh (137ms)
-				TypeCache.ScanAssembly (123ms)
-			BuildScriptInfoCaches (34ms)
-			ResolveRequiredComponents (8ms)
-	FinalizeReload (555ms)
+		AnalyzeDomain (170ms)
+			TypeCache.Refresh (130ms)
+				TypeCache.ScanAssembly (118ms)
+			BuildScriptInfoCaches (31ms)
+			ResolveRequiredComponents (6ms)
+	FinalizeReload (491ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (363ms)
+		SetupLoadedEditorAssemblies (331ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (22ms)
+			InitializePlatformSupportModulesInManaged (16ms)
 			SetLoadedEditorAssemblies (3ms)
-			BeforeProcessingInitializeOnLoad (72ms)
-			ProcessInitializeOnLoadAttributes (228ms)
-			ProcessInitializeOnLoadMethodAttributes (34ms)
-			AfterProcessingInitializeOnLoad (4ms)
+			BeforeProcessingInitializeOnLoad (69ms)
+			ProcessInitializeOnLoadAttributes (209ms)
+			ProcessInitializeOnLoadMethodAttributes (31ms)
+			AfterProcessingInitializeOnLoad (3ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (7ms)
+		AwakeInstancesAfterBackupRestoration (6ms)
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.02 seconds
-Refreshing native plugins compatible for Editor in 2.93 ms, found 1 plugins.
+Refreshing native plugins compatible for Editor in 3.35 ms, found 3 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 31 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 5986 unused Assets / (6.5 MB). Loaded Objects now: 6640.
-Memory consumption went from 135.8 MB to 129.2 MB.
-Total: 6.500200 ms (FindLiveObjects: 0.374700 ms CreateObjectMapping: 0.227100 ms MarkObjects: 3.169700 ms  DeleteObjects: 2.727700 ms)
+Unloading 6085 unused Assets / (5.9 MB). Loaded Objects now: 6740.
+Memory consumption went from 138.5 MB to 132.6 MB.
+Total: 5.549100 ms (FindLiveObjects: 0.379900 ms CreateObjectMapping: 0.276900 ms MarkObjects: 3.115500 ms  DeleteObjects: 1.776100 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 1291.039474 seconds.
-  path: Assets/Readme.asset
-  artifactKey: Guid(8105016687592461f977c054a80ce2f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Readme.asset using Guid(8105016687592461f977c054a80ce2f2) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '50ea5ad2cda8720781b90d71f311d8d1') in 0.0170579 seconds
+  Time since last request: 4483.794554 seconds.
+  path: Assets/3D models/source/Misti9/Misti9
+  artifactKey: Guid(7bd6d2ab4640e554bbc9e260eff82602) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9 using Guid(7bd6d2ab4640e554bbc9e260eff82602) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'a7ab7f76705e90ee459e54e08ef8074a') in 0.0037194 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 0
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.985753 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Abstract Blue Square.png
+  artifactKey: Guid(8e93f36a91d84dc4894b0a36cd81532c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Abstract Blue Square.png using Guid(8e93f36a91d84dc4894b0a36cd81532c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '68c6e0a424e409c681e06927ad6a9e8b') in 0.0376124 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
 
 ========================================================================
-Received Prepare
-Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.794 seconds
-Refreshing native plugins compatible for Editor in 4.21 ms, found 3 plugins.
-Native extension for iOS target not found
-Native extension for Android target not found
-Native extension for UWP target not found
-Native extension for WindowsStandalone target not found
-Native extension for OSXStandalone target not found
-Native extension for WebGL target not found
-[Package Manager] Failed to launch server process. Reason: Unity was launched with the -noUpm command-line argument
-[Package Manager] Unable to send message (not connected to server process).
-[Package Manager] Cannot connect to Unity Package Manager local server
-Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.515 seconds
-Domain Reload Profiling: 1309ms
-	BeginReloadAssembly (217ms)
-		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (4ms)
-		BackupInstance (0ms)
-		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (33ms)
-	RebuildCommonClasses (27ms)
-	RebuildNativeTypeToScriptingClass (9ms)
-	initialDomainReloadingComplete (29ms)
-	LoadAllAssembliesAndSetupDomain (510ms)
-		LoadAssemblies (488ms)
-		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (159ms)
-			TypeCache.Refresh (89ms)
-				TypeCache.ScanAssembly (80ms)
-			BuildScriptInfoCaches (60ms)
-			ResolveRequiredComponents (7ms)
-	FinalizeReload (516ms)
-		ReleaseScriptCaches (0ms)
-		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (387ms)
-			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (18ms)
-			SetLoadedEditorAssemblies (4ms)
-			BeforeProcessingInitializeOnLoad (83ms)
-			ProcessInitializeOnLoadAttributes (230ms)
-			ProcessInitializeOnLoadMethodAttributes (46ms)
-			AfterProcessingInitializeOnLoad (6ms)
-			EditorAssembliesLoaded (0ms)
-		ExecutionOrderSort2 (0ms)
-		AwakeInstancesAfterBackupRestoration (12ms)
-Refreshing native plugins compatible for Editor in 4.06 ms, found 3 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 29 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 6080 unused Assets / (6.2 MB). Loaded Objects now: 6758.
-Memory consumption went from 146.8 MB to 140.6 MB.
-Total: 9.631900 ms (FindLiveObjects: 0.744700 ms CreateObjectMapping: 0.335800 ms MarkObjects: 4.904100 ms  DeleteObjects: 3.646600 ms)
+Received Import Request.
+  Time since last request: 0.000017 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Fabric_B_Diff.jpg
+  artifactKey: Guid(bc887173b7d71b747bcf16878f956f23) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Fabric_B_Diff.jpg using Guid(bc887173b7d71b747bcf16878f956f23) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6c6ebada03cf13442d14f19f56231373') in 0.0124485 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
 
-Prepare: number of updated asset objects reloaded= 0
 ========================================================================
 Received Import Request.
-  Time since last request: 1170.225851 seconds.
-  path: Assets/3D models
-  artifactKey: Guid(19719ee4a1e0309448cbf0b775e7e540) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/3D models using Guid(19719ee4a1e0309448cbf0b775e7e540) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '5dc119f33b11130473095ec98b44e9c2') in 0.0063044 seconds
-Number of updated asset objects reloaded before import = 5Number of asset objects unloaded after import = 0
+  Time since last request: 0.000022 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/il_fullxfull.1123419681_6ucv.jpg
+  artifactKey: Guid(30c347b1db426f848840c025fe5d0686) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/il_fullxfull.1123419681_6ucv.jpg using Guid(30c347b1db426f848840c025fe5d0686) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'a8c775b2471fe7a07483cf4af473aec9') in 0.0122709 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
 
+========================================================================
+Received Import Request.
+  Time since last request: 0.000014 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/SUBTILE.jpg
+  artifactKey: Guid(d478c30f69630d04eadd92d1f079481e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/SUBTILE.jpg using Guid(d478c30f69630d04eadd92d1f079481e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '61a723d60b9b0537948023329a953fcb') in 0.0081441 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000015 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Porcelain_B_Mask.jpg
+  artifactKey: Guid(e736c79f614667746a1781a7c3cf9d2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Porcelain_B_Mask.jpg using Guid(e736c79f614667746a1781a7c3cf9d2f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '0b78bb0df52052e97bb081e864383b5f') in 0.0107095 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000020 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Veneer_D01_Bump.jpg
+  artifactKey: Guid(e13c46ffc7816304baebfa0867f9f915) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Veneer_D01_Bump.jpg using Guid(e13c46ffc7816304baebfa0867f9f915) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '4178b3dcfc977fce686ccac7fa442912') in 0.0141633 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000013 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/No.68.jpg
+  artifactKey: Guid(45a35b43a60ec1145bcb982f03f12b6f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/No.68.jpg using Guid(45a35b43a60ec1145bcb982f03f12b6f) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '00ad7962e2263bff71a02aabf5af2902') in 0.0080345 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000013 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Paper_C_Diff_01.jpg
+  artifactKey: Guid(637655d79b4341f4fbe693e95626150b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Paper_C_Diff_01.jpg using Guid(637655d79b4341f4fbe693e95626150b) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '4b92a377c6fea01a94400c767f9b6231') in 0.0104401 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000019 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/c04188069d47c27b0337686ddc595c8e.jpg
+  artifactKey: Guid(6c44ed6732ce531429f0b9a14d090d27) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/c04188069d47c27b0337686ddc595c8e.jpg using Guid(6c44ed6732ce531429f0b9a14d090d27) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '1449142596b4688f344babd2433b0677') in 0.0073608 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000011 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Fabric_C_NM.jpg
+  artifactKey: Guid(bc1066c5c852e624785208210b4bc0ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Fabric_C_NM.jpg using Guid(bc1066c5c852e624785208210b4bc0ef) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '36252b74ab2ebf8c2685885011d36e8b') in 0.007733 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Paper_A_Bump_01.jpg
+  artifactKey: Guid(f141e540822e6fe47bbe67cc8a5faebe) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Paper_A_Bump_01.jpg using Guid(f141e540822e6fe47bbe67cc8a5faebe) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '087c8482978896f75da196fa25fafccb') in 0.008252 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000036 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Fabric_B_NM.jpg
+  artifactKey: Guid(acb7cb55c33d47b41a8b602ae5ec29e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Fabric_B_NM.jpg using Guid(acb7cb55c33d47b41a8b602ae5ec29e7) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'a72f274bc9c768cb08ca7d6b1d398962') in 0.0273636 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000014 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/coffeecover.jpg
+  artifactKey: Guid(446f0a356d1d54f48a96f089724b81ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/coffeecover.jpg using Guid(446f0a356d1d54f48a96f089724b81ac) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'bdd18f1ecf7b3952ff3ffdf801feb54b') in 0.0081696 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000015 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/menu.PNG
+  artifactKey: Guid(1c6c1c764b2413f4e93de4e79b32f909) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/menu.PNG using Guid(1c6c1c764b2413f4e93de4e79b32f909) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'ae5eae36857928b4906b50320e47de16') in 0.0091167 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Paper_C_Bump_01.jpg
+  artifactKey: Guid(2ae8bfaae1766074db29be7fc38d79e5) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Paper_C_Bump_01.jpg using Guid(2ae8bfaae1766074db29be7fc38d79e5) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '71181135f6a215cd1e7d369cf7b89d0d') in 0.0086087 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000012 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Tiles_L_Diff_01-NEW.png
+  artifactKey: Guid(dbaaf292e96341742849eea8ac6141b8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Tiles_L_Diff_01-NEW.png using Guid(dbaaf292e96341742849eea8ac6141b8) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'f3eb00df3860be467baf4396e8cff1cf') in 0.0078853 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Tiles_G_Bump.jpg
+  artifactKey: Guid(f15591816193ce3408f410912216a807) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Tiles_G_Bump.jpg using Guid(f15591816193ce3408f410912216a807) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '6c80ef0334d2ad435d851cdd92bd6fff') in 0.0081647 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000023 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Fabric_C_Diff.jpg
+  artifactKey: Guid(051b880627f88f147a87e756efbd3848) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Fabric_C_Diff.jpg using Guid(051b880627f88f147a87e756efbd3848) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '2a990a5a2483873b50e56c48e659ffa6') in 0.0084818 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000016 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Grass_A_Diff.jpg
+  artifactKey: Guid(c455e0c6b2767ed469308be29995c96d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Grass_A_Diff.jpg using Guid(c455e0c6b2767ed469308be29995c96d) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '4d4e0f0e1351c70e88b2bb2b72983cbb') in 0.0099433 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000018 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Laminate_D02_Diff.jpg
+  artifactKey: Guid(c5a1856d2be0dab478b0b76ba53aa93c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Laminate_D02_Diff.jpg using Guid(c5a1856d2be0dab478b0b76ba53aa93c) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '4adc7eca443bccbbbcd00ae927b2bda8') in 0.0145575 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Tiles_G_Diff.png
+  artifactKey: Guid(b17d0f9ad80cfa844a0ea50a965571d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Tiles_G_Diff.png using Guid(b17d0f9ad80cfa844a0ea50a965571d3) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: 'b75b25f6d3f4203746830058435bb728') in 0.0097024 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000027 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/No.34.jpg
+  artifactKey: Guid(9150e8a0ac731bf49bb80284a25ebb1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/No.34.jpg using Guid(9150e8a0ac731bf49bb80284a25ebb1e) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '03297fd80e5a1a91008ab8841222def3') in 0.0115494 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000024 seconds.
+  path: Assets/3D models/source/Misti9/Misti9/Stone_E_Bump_01.jpg
+  artifactKey: Guid(0102b96346a2d1d4dab8ce5d6e100e63) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/3D models/source/Misti9/Misti9/Stone_E_Bump_01.jpg using Guid(0102b96346a2d1d4dab8ce5d6e100e63) Importer(815301076,1909f56bfc062723c751e8b465ee728b) (PreviewImporter) -> (artifact id: '120fe888dda42739091aa493dc8c6747') in 0.0159068 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 2
+
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0
