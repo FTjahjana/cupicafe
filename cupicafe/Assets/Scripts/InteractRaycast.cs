@@ -22,7 +22,7 @@ public class InteractRaycast : MonoBehaviour
         Ray interactRay = new Ray(transform.position, fwd);
         RaycastHit hitData;
 
-        Debug.DrawRay(interactRay.origin, interactRay.direction* 10);
+        Debug.DrawRay(interactRay.origin, interactRay.direction* 5, Color.green);
 
         //if our raycast hits something, continue
         if (Physics.Raycast(interactRay, out hitData))
