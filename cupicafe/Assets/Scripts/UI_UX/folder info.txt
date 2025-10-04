@@ -1,0 +1,3 @@
+FOLDER INFO: UI_UX.
+Pretty self-explanatory name. User interface and player interaction outside direct gameplay. Here's the files here:
+- Menus , HUD elements, dialogue sys, inventory/equipment, notifs/tooltips, quest ui yesah.

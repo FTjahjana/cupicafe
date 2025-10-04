@@ -1,0 +1,6 @@
+FOLDER INFO: NPCs.
+Pretty self-explanatory name. Here's the files here:
+
+- movement and shit
+- spawners? LOL wave managers if u camera
+- state machines yeay

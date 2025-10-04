@@ -1,0 +1,6 @@
+FOLDER INFO: Action Mechanics.
+In this folder, contains scripts that directly handle the player. This includes:
+
+- Movement.cs (rename the 3D file, move the 2d shit and trial shit into a temp "class" folder)
+
+- Combat , abilities / skills, interaction, camera actions.

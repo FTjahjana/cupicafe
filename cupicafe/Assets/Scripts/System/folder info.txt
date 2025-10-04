@@ -1,0 +1,10 @@
+FOLDER INFO: System.
+In this folder, contains scripts that manage overall flow of the gameplay. This includes:
+
+- GameManager.cs (controls game state: start, pause, win/lose)
+- Scene Loader
+- Save/Load Sys (? maybe )
+- Event System (broadcasting!)
+- Time Manager (?)
+- Settings page
+- Audio Manager?

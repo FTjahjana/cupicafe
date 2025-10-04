@@ -8,9 +8,7 @@ public class InteractRaycast : MonoBehaviour
     public PlayerInput playerInput;
     InputAction interactAction;
 
-    Transform hand;
-    [SerializeField]private Transform handStart, handEnd;
-    float handPressDuration = 0.8f;
+    public Animator handAnim;
 
     private void Awake()
     {
@@ -43,10 +41,7 @@ public class InteractRaycast : MonoBehaviour
         else {
             if (interactAction.WasPressedThisFrame())
                 {
-                    float t = Mathf.Clamp01((Time.time - startTime) / handPressDuration);
-
-                    hand.transform.position = Vector3.Lerp(handStart.position, handEnd.position, t);
-                    hand.transform.rotation = Quaternion.Lerp(handStart.rotation, handEnd.rotation, t);
+                    handAnim.SetTrigger("Hit");
                     Debug.Log("You just hit air");
                 }
         }
