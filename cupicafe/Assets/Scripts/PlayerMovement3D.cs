@@ -17,6 +17,7 @@ public class PlayerMovement3D : MonoBehaviour
     public float upDownRange = 80.0f;
     private float yRotation;
 
+    InputAction jumpAction;
     public float jumpSpeed = 3.0f;
     public float gravity = 10.0f;
     private Vector3 movingDirection = Vector3.zero;
@@ -30,7 +31,7 @@ public class PlayerMovement3D : MonoBehaviour
         //playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
         lookAction = playerInput.actions.FindAction("Look");
-        //jumpAction = playerInput.actions.FindAction("Jump");
+        jumpAction = playerInput.actions.FindAction("Jump");
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -55,7 +56,7 @@ public class PlayerMovement3D : MonoBehaviour
 
        Move();
        Look();
-       //Jump();
+       Jump();
     }
     
     
@@ -88,13 +89,13 @@ public class PlayerMovement3D : MonoBehaviour
 
     void Jump()
     {
-        /*
+
         if (characterController.isGrounded && jumpAction.WasPressedThisFrame())
         {
                 movingDirection.y = jumpSpeed;
         }
             movingDirection.y -= gravity * Time.deltaTime;
             characterController.Move(movingDirection * Time.deltaTime);
-        */
+
     }
 }
