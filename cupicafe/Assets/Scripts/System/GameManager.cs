@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject Player;
 
+    public float mapRadius; public Vector3 mapCenter;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,5 +30,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game ended!");
     }
 
-
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red; 
+        Gizmos.DrawWireSphere(mapCenter, mapRadius);
+    }
 }

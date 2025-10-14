@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\NPCs\Talkto.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\hand.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\BowController.cs" />
+    <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Book.cs" />
     <Compile Include="Assets\Scripts\timebasescript.cs" />
     <Compile Include="Assets\Scripts\System\QuestManager.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />

@@ -12,7 +12,7 @@ public class BowController : MonoBehaviour
 
     void Start()
     {
-        spawnPoint = transform.Find("DrawPoint").gameObject;
+        spawnPoint = transform.Find("Arrow Spawn").gameObject;
     }
 
     void Update()
@@ -27,7 +27,20 @@ public class BowController : MonoBehaviour
     {
         GameObject arrow = Instantiate(arrowPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
         ArrowController arrowController = arrow.GetComponent<ArrowController>();
+
+        if (arrowController == null)
+        {
+            Debug.LogError("missing ArrowController script");
+            return;
+        }
+
         arrowController.Launch(launchVelocity);
+    }
+    
+        public void ClearArrows()
+    {
+        GameObject[] arrows = GameObject.FindGameObjectsWithTag("Arrow");
+        foreach (GameObject arrow in arrows) Destroy(arrow);
     }
 }
 
