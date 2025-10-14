@@ -4,6 +4,7 @@ public class Hand : MonoBehaviour
 {
     public static Hand Instance { get; private set; }
     public Transform hand;
+    public Transform handIsHolding = null;
 
     void Awake()
     {

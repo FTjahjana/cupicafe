@@ -19,6 +19,10 @@ public class Pickupable : MonoBehaviour, IInteractable
         dropAction = playerInput.actions.FindAction("Interact2");
     }
 
+    void Update(){
+        if (dropAction.WasPressedThisFrame()) Drop();
+    }
+
     public virtual void Interact() => Pickup(Hand.Instance.hand.transform);
 
     public virtual void Pickup(Transform hand)
@@ -36,8 +40,9 @@ public class Pickupable : MonoBehaviour, IInteractable
 
     public void Drop()
     {
-        if (isHeld && dropAction.WasPressedThisFrame())
+        if (isHeld)
         {
+            Debug.Log("Dropped a" + gameObject.name);
             transform.SetParent(null);
             if (rb != null) rb.isKinematic = false;
 

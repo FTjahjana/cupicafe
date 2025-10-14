@@ -30,7 +30,7 @@ public class InteractRaycast : MonoBehaviour
         RaycastHit hitData;
         Debug.DrawRay(interactRay.origin, interactRay.direction * interactRange, Color.yellow);
         //if our raycast hits something, continue
-        if (Physics.Raycast(interactRay, out hitData))
+        if (Physics.Raycast(interactRay, out hitData, interactRange))
         {
             //checks what kind of thing we hit
             if (hitData.collider.gameObject.layer == 6)

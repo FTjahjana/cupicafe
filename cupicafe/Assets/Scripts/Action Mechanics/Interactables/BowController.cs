@@ -17,7 +17,7 @@ public class BowController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             FireArrow();
         }
