@@ -9,31 +9,16 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject[] instructions;
     public Button[] buttons;
-    public PlayerMovement3D playerMovementScript; public InputAction[] actions;
+    public PlayerMovement3D playerMovementScript; 
 
     void Start()
     {
-        actions = new InputAction[]
-        {
-            playerMovementScript.moveAction,
-            playerMovementScript.lookAction,
-            playerMovementScript.jumpAction
-        };
-
-        ToggleActions(false);
+        playerMovementScript.ToggleActions(false);
         ShowInstruction(2);
     }
 
-    void OnEnable() {ToggleActions(false);}
-    void OnDisable() {ToggleActions(true);}
-
-    void ToggleActions(bool thing)
-    {
-        playerMovementScript.cursorObj.SetActive(thing);
-        Cursor.lockState = thing ? CursorLockMode.Locked : CursorLockMode.None;
-        foreach (var a in actions)
-        if (thing) a.Enable(); else a.Disable();
-    }
+    void OnEnable() {playerMovementScript.ToggleActions(false);}
+    void OnDisable() {playerMovementScript.ToggleActions(true);}
 
     public void ShowInstruction(int InstructionsIndex)
     {

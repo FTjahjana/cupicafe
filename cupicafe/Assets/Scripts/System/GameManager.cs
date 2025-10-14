@@ -4,6 +4,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public GameObject Player;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -16,7 +18,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void StartGame()
+    public void Start()
     {
         Debug.Log("Game started!");
     }
@@ -25,4 +27,6 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Game ended!");
     }
+
+
 }

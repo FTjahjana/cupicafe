@@ -49,15 +49,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Door.cs" />
-    <Compile Include="Assets\Scripts\Action Mechanics\Interactable.cs" />
+    <Compile Include="Assets\Scripts\Action Mechanics\Interactables\ArrowController.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\InteractRaycast.cs" />
     <Compile Include="Assets\Scripts\UI_UX\AnimationScreen.cs" />
+    <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Pickupable.cs" />
     <Compile Include="Assets\Scripts\System\Quest.cs" />
+    <Compile Include="Assets\Scripts\System\Fruits\Fruit.cs" />
     <Compile Include="Assets\Scripts\UI_UX\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\NPCs\Talkto.cs" />
+    <Compile Include="Assets\Scripts\Action Mechanics\hand.cs" />
+    <Compile Include="Assets\Scripts\Action Mechanics\Interactables\BowController.cs" />
     <Compile Include="Assets\Scripts\timebasescript.cs" />
     <Compile Include="Assets\Scripts\System\QuestManager.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\Scripts\Action Mechanics\IInteractable.cs" />
+    <Compile Include="Assets\Scripts\System\Fruits\FruitData.cs" />
     <Compile Include="Assets\Scripts\UI_UX\holdMeter.cs" />
+    <Compile Include="Assets\Scripts\Action Mechanics\Interactables\GunPickup.cs" />
+    <Compile Include="Assets\Scripts\NPCs\AgentMover.cs" />
     <Compile Include="Assets\Scripts\System\GameManager.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\PlayerMovement3D.cs" />
   </ItemGroup>

@@ -1,0 +1,1 @@
+Temp/ScriptUpdater/1034605408\2033649839_ArrowController.cs => Assets/Scripts/Action Mechanics/Interactables/ArrowController.cs

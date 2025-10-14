@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class PlayerMovement3D : MonoBehaviour
 {
 
     public PlayerInput playerInput;
+    public List<InputAction> activityActions = new List<InputAction>();
 
     public InputAction moveAction;
     public CharacterController characterController;
@@ -49,21 +51,12 @@ public class PlayerMovement3D : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void OnEnable()
-    {
-        moveAction.Enable();
-        lookAction.Enable();
-    }
-
-    private void OnDisable()
-    {
-        moveAction.Disable();
-        lookAction.Disable();
-    }
-
     void Start()
     {
         sprintStamina = maxSprintStamina;
+
+        activityActions.Add(moveAction); activityActions.Add(sprintAction);
+        activityActions.Add(lookAction); activityActions.Add(jumpAction);
     }
     // Update is called once per frame
     void Update()
@@ -76,6 +69,15 @@ public class PlayerMovement3D : MonoBehaviour
         cursorToggle();
         Jump();
         
+    }
+
+    public void ToggleActions(bool thing)
+    {
+        Cursor.lockState = thing ? CursorLockMode.Locked : CursorLockMode.None;
+        cursorObj.SetActive(thing);
+        
+        foreach (var a in activityActions)
+            if (thing) a.Enable(); else a.Disable();
     }
 
     void Move()
