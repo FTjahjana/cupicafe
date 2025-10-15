@@ -7,10 +7,12 @@ public class Pickupable : MonoBehaviour, IInteractable
     public bool isHeld = false;
     public PlayerInput playerInput; public InputAction dropAction;
 
+    public bool useCustomTilt; public Quaternion customTilt;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        
+
     }
 
     private void Start()
@@ -23,7 +25,10 @@ public class Pickupable : MonoBehaviour, IInteractable
         if (dropAction.WasPressedThisFrame()) Drop();
     }
 
-    public virtual void Interact() => Pickup(Hand.Instance.hand.transform);
+    public virtual void Interact()
+    {
+        if (GameManager.Instance.handIsHolding == false) { Pickup(GameManager.Instance.hand.transform); }
+        else { Debug.Log("Hand already holding something"); } }
 
     public virtual void Pickup(Transform hand)
     {
@@ -31,9 +36,10 @@ public class Pickupable : MonoBehaviour, IInteractable
 
         transform.SetParent(hand);
         transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
+        if (useCustomTilt) transform.localRotation = customTilt;
+        else transform.localRotation = Quaternion.identity;
 
-        isHeld = true;
+        isHeld = true; GameManager.Instance.handIsHolding = true;
 
         if (rb != null) rb.isKinematic = true;
     }
@@ -48,7 +54,7 @@ public class Pickupable : MonoBehaviour, IInteractable
 
             transform.GetComponent<Collider>().enabled = true;
 
-            isHeld = false;
+            isHeld = false; GameManager.Instance.handIsHolding = false;
         }
     }
 }

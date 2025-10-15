@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -14,7 +15,9 @@ public class Door : MonoBehaviour, IInteractable
     {
         isOpen = !isOpen;
         Debug.Log(isOpen ? "Door opened." : "Door closed.");
-        anim.Play(isOpen ? "Open": "Close");
-        
+        anim.Play(isOpen ? "Open" : "Close");
+
     }
+
+
 }

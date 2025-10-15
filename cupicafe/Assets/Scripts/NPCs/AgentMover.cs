@@ -9,11 +9,22 @@ public class AgentMover : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        
+        if (agent == null) Debug.LogError("navmeshagent missing");
     }
 
     void Update()
     {
-        if(target != null)
+        if (agent != null && target != null)
+        {
             agent.SetDestination(target.position);
+        }
+        else if (target == null)
+        {
+            if (agent != null && agent.enabled && agent.hasPath)
+            {
+                agent.ResetPath();
+            }
+        }
     }
 }
