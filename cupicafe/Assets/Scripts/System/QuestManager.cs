@@ -7,6 +7,8 @@ public class QuestManager : MonoBehaviour
 
     private List<Quest> activeQuests = new List<Quest>();
 
+    public GameObject Target1, Target2;
+
     void Awake()
     {
         if (Instance != null && Instance != this)
