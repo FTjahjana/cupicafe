@@ -344,7 +344,7 @@ MonoBehaviour:
   dialogue:
     name: Will
     sentences:
-    - Good evening, CU.
+    - Good evening, [Player].
     - Oh.. right. I'm Will.
 --- !u!1 &621245419
 GameObject:
@@ -716,7 +716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &963487784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1205,7 +1205,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameText: {fileID: 939683009}
   dialogueText: {fileID: 621245421}
+  playerName: C.U.
   dialoguePanel: {fileID: 963487783}
+  animator: {fileID: 963487787}
 --- !u!4 &1314989365
 Transform:
   m_ObjectHideFlags: 0

@@ -56,6 +56,7 @@ public class ArrowController : MonoBehaviour
         transform.parent = null;
         rb.isKinematic = false;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        //rb.linearVelocity = Camera.main.transform.forward * velocity;
         rb.linearVelocity = transform.forward * velocity;
     }
 

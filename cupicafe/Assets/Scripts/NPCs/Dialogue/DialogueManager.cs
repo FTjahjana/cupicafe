@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance { get; private set; }
 
     public TextMeshProUGUI nameText, dialogueText;
-    private Queue<string> sentences;
+    private Queue<string> sentences; public string playerName;
     [SerializeField] private GameObject dialoguePanel;
 
     public Animator animator;
@@ -57,6 +57,12 @@ public class DialogueManager : MonoBehaviour
         }
 
         string sentence = sentences.Dequeue();
+        //if (sentence.Contains("[Player]")){sentence.Replace("[Player]", playerName);}
+        if(sentence.Contains("[Player]"))
+        {
+            sentence = sentence.Replace("[Player]", playerName);
+            Debug.Log(sentence);
+        }
         dialogueText.text = sentence;
     }
     
