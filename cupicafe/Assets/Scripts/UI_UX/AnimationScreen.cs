@@ -5,47 +5,31 @@ using System.Collections;
 public class AnimationScreen : MonoBehaviour
 {
     [SerializeField] private CanvasGroup animationPanel;
-    [SerializeField] private Animator animator;
-    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private bool fadeIn = false, fadeOut = false;
 
-    private Coroutine fadeRoutine;
 
-    private void Start()
+    public void ShowScreen() { fadeIn = true; }
+    public void HideScreen() { fadeOut = true; }
+    private void Update()
     {
-        animationPanel.alpha = 0f;
-        animationPanel.gameObject.SetActive(false);
-    }
-
-    public void PlayAnimation(string animTrigger)
-    {
-        if (fadeRoutine != null) StopCoroutine(fadeRoutine);
-        animationPanel.gameObject.SetActive(true);
-        fadeRoutine = StartCoroutine(FadeCanvas(animationPanel, 0f, 1f, fadeDuration, () =>
+        if (fadeIn)
         {
-            animator.SetTrigger(animTrigger);
-        }));
-    }
-
-    public void AnimFadeOut()
-    {
-        if (fadeRoutine != null) StopCoroutine(fadeRoutine);
-        fadeRoutine = StartCoroutine(FadeCanvas(animationPanel, 1f, 0f, fadeDuration, () =>
-        {
-            animationPanel.gameObject.SetActive(false);
-        }));
-    }
-
-    private IEnumerator FadeCanvas(CanvasGroup canvas, float start, float end, float duration, System.Action onComplete)
-    {
-        float elapsed = 0f;
-        canvas.alpha = start;
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            canvas.alpha = Mathf.Lerp(start, end, elapsed / duration);
-            yield return null;
+            if (animationPanel.alpha < 1)
+            {
+                animationPanel.alpha += Time.deltaTime;
+                if (animationPanel.alpha >= 1) fadeIn = false;
+            }
         }
-        canvas.alpha = end;
-        onComplete?.Invoke();
+
+        if (fadeIn)
+        {
+            if (animationPanel.alpha >= 0)
+            {
+                animationPanel.alpha += Time.deltaTime;
+                if (animationPanel.alpha == 1) fadeOut = false;
+            }
+        }
     }
+
+    
 }
