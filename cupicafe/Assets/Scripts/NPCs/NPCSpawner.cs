@@ -15,7 +15,7 @@ public class NPCSpawner : MonoBehaviour
     public float spawnRadius = 5f;
 
     [System.Serializable]
-    public struct SpawnSettings
+    public struct SpawnRound
     {
         public int amount;
         public float rate;
@@ -23,7 +23,7 @@ public class NPCSpawner : MonoBehaviour
         public float timeUntilNextRound;
     }
     
-    public List<SpawnSettings> spawnRounds;
+    public List<SpawnRound> spawnRounds;
 
     void Start()
     {

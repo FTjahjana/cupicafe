@@ -9,12 +9,13 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject[] instructions;
     public Button[] buttons;
-    public PlayerMovement3D playerMovementScript; 
+    public PlayerMovement3D playerMovementScript;
 
+    [SerializeField] private SceneLoader sceneLoader;
+    
     void Start()
     {
         playerMovementScript.ToggleActions(false);
-        ShowInstruction(2);
     }
 
     void OnEnable() {playerMovementScript.ToggleActions(false);}
@@ -27,6 +28,30 @@ public class MainMenu : MonoBehaviour
             instructions[i].SetActive(i == InstructionsIndex);
         }
         EventSystem.current.SetSelectedGameObject(buttons[InstructionsIndex].gameObject);
+    }
+
+    public void Play()
+    {
+        // if current scene = "Game"
+        sceneLoader.LoadScene("Game");
+    }
+
+    public void Resume()
+    {
+        //play pause anim backwards (set up in animator)
+        this.gameObject.SetActive(false);
+        //move the menutrigger thing from the X button to here
+    }
+
+    public void Options()
+    {
+        Debug.Log("Options Placeholder");
+    }
+
+    public void ExitGame()
+    {
+        sceneLoader.QuitGame(); 
+        // add anims later
     }
 
 }

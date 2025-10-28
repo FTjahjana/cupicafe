@@ -57,7 +57,6 @@ public class DialogueManager : MonoBehaviour
         }
 
         string sentence = sentences.Dequeue();
-        //if (sentence.Contains("[Player]")){sentence.Replace("[Player]", playerName);}
         if(sentence.Contains("[Player]"))
         {
             sentence = sentence.Replace("[Player]", playerName);
