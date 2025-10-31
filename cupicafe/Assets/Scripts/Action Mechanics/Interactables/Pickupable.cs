@@ -7,7 +7,7 @@ public class Pickupable : MonoBehaviour, IInteractable
     public bool isHeld = false;
     public PlayerInput playerInput; public InputAction dropAction;
 
-    public bool useCustomTilt; public Quaternion customTilt;
+    public bool useCustomTilt; public Vector3 customTilt;
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class Pickupable : MonoBehaviour, IInteractable
 
     public virtual void Interact()
     {
-        if (GameManager.Instance.handIsHolding == false) { Pickup(GameManager.Instance.hand.transform); }
+        if (GameManager.Instance.handIsHolding == false) { Pickup(GameManager.Instance.hand); }
         else { Debug.Log("Hand already holding something"); } }
 
     public virtual void Pickup(Transform hand)
@@ -36,7 +36,7 @@ public class Pickupable : MonoBehaviour, IInteractable
 
         transform.SetParent(hand);
         transform.localPosition = Vector3.zero;
-        if (useCustomTilt) transform.localRotation = customTilt;
+        if (useCustomTilt) transform.localRotation = Quaternion.Euler(customTilt);
         else transform.localRotation = Quaternion.identity;
 
         isHeld = true; GameManager.Instance.handIsHolding = true;

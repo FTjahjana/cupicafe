@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,15 +12,16 @@ public class MainMenu : MonoBehaviour
     public Button[] buttons;
     public PlayerMovement3D playerMovementScript;
 
-    [SerializeField] private SceneLoader sceneLoader;
-    
+    [HideInInspector]public bool inGame;
+   
     void Start()
     {
-        playerMovementScript.ToggleActions(false);
+        inGame = GameManager.Instance.inGame;
+        if (inGame) playerMovementScript.ToggleActions(false);
     }
 
-    void OnEnable() {playerMovementScript.ToggleActions(false);}
-    void OnDisable() {playerMovementScript.ToggleActions(true);}
+    void OnEnable() {if (inGame) playerMovementScript.ToggleActions(false);}
+    void OnDisable() {if (inGame) playerMovementScript.ToggleActions(true);}
 
     public void ShowInstruction(int InstructionsIndex)
     {
@@ -32,14 +34,16 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        // if current scene = "Game"
-        sceneLoader.LoadScene("Game");
+        if (SceneManager.GetActiveScene().name != "Game")
+        {
+            SceneManager.LoadScene("Game");
+            GameManager.Instance.inGame = true;
+        }
     }
 
     public void Resume()
-    {
+    { // additional button functions in inspector: Main Menu GameObj false & Menu Trigger GameObj true 
         //play pause anim backwards (set up in animator)
-        this.gameObject.SetActive(false);
         //move the menutrigger thing from the X button to here
     }
 
@@ -48,9 +52,14 @@ public class MainMenu : MonoBehaviour
         Debug.Log("Options Placeholder");
     }
 
-    public void ExitGame()
+    public void Exit()
     {
-        sceneLoader.QuitGame(); 
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+        
         // add anims later
     }
 

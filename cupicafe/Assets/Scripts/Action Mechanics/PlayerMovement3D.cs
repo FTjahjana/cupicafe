@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class PlayerMovement3D : MonoBehaviour
 {
@@ -10,33 +12,36 @@ public class PlayerMovement3D : MonoBehaviour
     public PlayerInput playerInput;
     public List<InputAction> activityActions = new List<InputAction>();
 
+    [Header("Move")]
     public InputAction moveAction;
     public CharacterController characterController;
-    public float moveSpeed = 3;
+    public float moveSpeed = 3, baseMoveSpeed = 3;
 
-    public InputAction sprintAction;
+    [Header("Sprint")]
+    public InputAction shiftAction;
     public float maxSprintStamina = 5f;
     public float sprintRegenRate = 2f;
     private float sprintStamina;
 
+    [Header("Look")]
     public InputAction lookAction;
     public GameObject playerCamera;
     public float lookSensitivity = 2.0f;
     public float upDownRange = 80.0f;
     private float yRotation;
 
+    [Header("Jump")]
     public InputAction jumpAction;
     public float jumpSpeed = 3.0f;
     public float gravity = 10.0f;
     private Vector3 movingDirection = Vector3.zero;
 
+    [Header("Fly")]
+    public bool isFlying;
+
+    [Header("Cursor Toggle")]
     public InputAction cursorToggleAction;
-
     public GameObject cursorObj;
-
-
-    //public Vector2 moveInput;
-    //public Vector3 horizontalMovement;
 
     // Start is called before the first frame update
     void Awake()
@@ -45,7 +50,7 @@ public class PlayerMovement3D : MonoBehaviour
         moveAction = playerInput.actions.FindAction("Move");
         lookAction = playerInput.actions.FindAction("Look");
         jumpAction = playerInput.actions.FindAction("Jump");
-        sprintAction = playerInput.actions.FindAction("Sprint");
+        shiftAction = playerInput.actions.FindAction("Shift");
         cursorToggleAction = playerInput.actions.FindAction("cursorToggle");
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -55,9 +60,12 @@ public class PlayerMovement3D : MonoBehaviour
     {
         sprintStamina = maxSprintStamina;
 
-        activityActions.Add(moveAction); activityActions.Add(sprintAction);
+        activityActions.Add(moveAction); activityActions.Add(shiftAction);
         activityActions.Add(lookAction); activityActions.Add(jumpAction);
+
     }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -68,14 +76,15 @@ public class PlayerMovement3D : MonoBehaviour
         Look();
         cursorToggle();
         Jump();
-        
+        Fly();
+
     }
 
     public void ToggleActions(bool thing)
     {
         Cursor.lockState = thing ? CursorLockMode.Locked : CursorLockMode.None;
         cursorObj.SetActive(thing);
-        
+
         foreach (var a in activityActions)
             if (thing) a.Enable(); else a.Disable();
     }
@@ -97,10 +106,10 @@ public class PlayerMovement3D : MonoBehaviour
 
     void Sprint()
     {
-        bool sprinting = sprintAction.WasPressedThisFrame() && sprintStamina > 0 &&
+        bool sprinting = shiftAction.IsPressed() && sprintStamina > 0 &&
                         (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0);
 
-        moveSpeed = sprinting ? moveSpeed * 2.5f : moveSpeed;
+        moveSpeed = sprinting ? moveSpeed * 2.5f : baseMoveSpeed;
         sprintStamina += (sprinting ? -1 : sprintRegenRate) * Time.deltaTime;
         sprintStamina = Mathf.Clamp(sprintStamina, 0, maxSprintStamina);
     }
@@ -123,7 +132,7 @@ public class PlayerMovement3D : MonoBehaviour
         {
             bool isActive = cursorObj.activeSelf;
             cursorObj.SetActive(!isActive);
-            
+
             if (isActive)
             { Cursor.lockState = CursorLockMode.None; lookAction.Disable(); }
             else { Cursor.lockState = CursorLockMode.Locked; lookAction.Enable(); }
@@ -132,7 +141,7 @@ public class PlayerMovement3D : MonoBehaviour
 
     void Jump()
     {
-
+        if (isFlying) return;
         if (characterController.isGrounded && jumpAction.WasPressedThisFrame())
         {
             movingDirection.y = jumpSpeed;
@@ -142,5 +151,40 @@ public class PlayerMovement3D : MonoBehaviour
 
     }
 
-   
+    void Fly()
+    {
+        /* Putting this here because I'm gonna forget how it works the moment I lay eyes on it for the second time
+        and have to go scourging the internet to find this specific article again: 
+            https://docs.unity3d.com/Packages/com.unity.inputsystem@1.15/manual/Interactions.html
+            relevant sections: #operation, #multitap
+        */
+
+        jumpAction.performed += context =>
+        {
+            if (context.interaction is MultiTapInteraction)
+            {   if (isFlying)
+                {
+                    Debug.Log("flying off");
+                    isFlying = false;
+                }
+                else
+                {
+                    Debug.Log("flying initiated");
+                    isFlying = true;
+                }
+            }
+            else
+            { if (isFlying)
+            {
+                Debug.Log("We're going up up up");
+                    if (shiftAction.IsPressed())
+                    {
+                        Debug.Log("We're going down.");
+                    }
+                }
+            }
+        };
+    }
+
+
 }

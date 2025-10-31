@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\NPCs\NPCInteract.cs" />
+    <Compile Include="Assets\Scripts\NPCs\Dialogue\SystemDialogue.cs" />
     <Compile Include="Assets\Scripts\timebasescript.cs" />
     <Compile Include="Assets\Scripts\System\QuestManager.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Door.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Assets\Scripts\System\GameManager.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Pickupable.cs" />
     <Compile Include="Assets\Scripts\System\Quest.cs" />
-    <Compile Include="Assets\Scripts\System\SceneLoader.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\PlayerMovement3D.cs" />
     <Compile Include="Assets\Scripts\System\Timeline.cs" />
     <Compile Include="Assets\Scripts\NPCs\Dialogue\Dialogue.cs" />
