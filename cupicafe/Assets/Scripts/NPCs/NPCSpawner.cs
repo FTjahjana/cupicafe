@@ -7,6 +7,8 @@ public class NPCSpawner : MonoBehaviour
 {
     public GameObject npcPrefab;
 
+    public int NPCCounter;
+
     public Transform target;
     
     public float startDelay;
@@ -27,7 +29,7 @@ public class NPCSpawner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnAllRounds());
+        EventManager.OnQuestStarted += (quest) => StartCoroutine(SpawnAllRounds());
     }
 
     void Update()
@@ -54,6 +56,7 @@ public class NPCSpawner : MonoBehaviour
             if (agentMover != null && target != null)
             {
                 agentMover.target = target;
+                NPCCounter++;
             }
             else
             {

@@ -1,13 +1,16 @@
-[System.Serializable]
-public class Quest
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "Game/Quest")]
+public class Quest : ScriptableObject
 {
-    public string title;
-    public string instructions;
+    public string questName => name;
+    [TextArea] public string instructions;
     public bool isCompleted;
+
+    public float delayAfterCompletion = 3f;
 
     public Quest(string title, string instructions)
     {
-        this.title = title;
         this.instructions = instructions;
         isCompleted = false;
     }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class NPCBehaviour : MonoBehaviour
 {
-    public Vector3 offset;
+    public string Name;
+    
     public Animator Animator;
     public NPCQueue currentQueue;
     
@@ -12,6 +13,7 @@ public class NPCBehaviour : MonoBehaviour
 
     [Header("Animations")]
     public string sitAnimation;
+    public string standAnimation;
 
     public void LeaveSlot()
     {

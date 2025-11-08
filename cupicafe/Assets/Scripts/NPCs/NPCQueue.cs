@@ -21,8 +21,7 @@ public class NPCQueue : MonoBehaviour
             if (!slot.occupied && slot.slotLoc != null)
             {
                 slot.occupied = true;
-                npc.transform.position = slot.slotLoc.position + npc.offset;
-                npc.transform.rotation = slot.slotLoc.rotation;
+                npc.transform.SetPositionAndRotation(slot.slotLoc.position, slot.slotLoc.rotation);
                 npc.Animator.Play(npc.sitAnimation);
                 return true;
             }

@@ -9,8 +9,10 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance { get; private set; }
 
     public TextMeshProUGUI nameText, dialogueText;
-    private Queue<string> sentences; public string playerName;
-    [SerializeField] private GameObject dialoguePanel;
+    public TMP_InputField InputText;
+
+    private Queue<string> sentences; public string playerName = "Player";
+    [SerializeField] private GameObject dialoguePanel, inputPanel;
 
     public Animator animator;
 
@@ -33,20 +35,30 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        if (dialoguePanel.activeInHierarchy == false) dialoguePanel.SetActive(true);
-
-        animator.SetBool("isOpen", true);
-        nameText.text = dialogue.name;
-
-        Debug.Log("Started conversation with " + dialogue.name);
-
-        sentences.Clear();
-        foreach (string sentence in dialogue.sentences)
+        if (dialogue.name == "Input")
         {
-            sentences.Enqueue(sentence);
+            if (inputPanel.activeInHierarchy == false) inputPanel.SetActive(true);
+            //animator.SetBool("InputPanelOpen", false);
         }
+        else
+        {
+            if (dialoguePanel.activeInHierarchy == false) dialoguePanel.SetActive(true);
 
-        DisplayNextSentence();
+            animator.SetBool("isOpen", true);
+
+            if (dialogue.name == "Player") nameText.text = playerName;
+            else nameText.text = dialogue.name;
+
+            Debug.Log("Started conversation with " + dialogue.name);
+
+            sentences.Clear();
+            foreach (string sentence in dialogue.sentences)
+            {
+                sentences.Enqueue(sentence);
+            }
+
+            DisplayNextSentence();
+        }
     }
 
     public void DisplayNextSentence()
@@ -64,10 +76,12 @@ public class DialogueManager : MonoBehaviour
         }
         dialogueText.text = sentence;
     }
-    
+
     void EndDialogue()
     {
-        Debug.Log("End of conversation");
+        Debug.Log("End of dialogue");
         animator.SetBool("isOpen", false);
     }
+
+    public void ChangeName() { if (inputPanel.activeInHierarchy) playerName = InputText.text; inputPanel.SetActive(false);}
 }

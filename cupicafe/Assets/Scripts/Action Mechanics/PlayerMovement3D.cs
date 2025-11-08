@@ -93,15 +93,24 @@ public class PlayerMovement3D : MonoBehaviour
     {
         //take in our WASD or Left Stick values
         Vector2 moveInput = moveAction.ReadValue<Vector2>() * moveSpeed;
-
         //convert this to a 3D vector 
         Vector3 horizontalMovement = new Vector3(moveInput.x, 0, moveInput.y);
-
         //accounts for rotation
         horizontalMovement = transform.rotation * horizontalMovement;
 
-        //move the character
-        characterController.SimpleMove(horizontalMovement);
+        //flight
+        if (isFlying)
+        {
+            float vertical = 0f;
+            if (Keyboard.current.eKey.isPressed) vertical = moveSpeed;
+            if (Keyboard.current.qKey.isPressed) vertical = -moveSpeed;
+
+            Vector3 move = horizontalMovement + Vector3.up * vertical;
+            characterController.Move(move * Time.deltaTime);
+        } else {
+            //move the character
+            characterController.SimpleMove(horizontalMovement);
+        }
     }
 
     void Sprint()
@@ -165,12 +174,12 @@ public class PlayerMovement3D : MonoBehaviour
             {   if (isFlying)
                 {
                     Debug.Log("flying off");
-                    isFlying = false;
+                    isFlying = false; //wingsOut = false;
                 }
                 else
                 {
                     Debug.Log("flying initiated");
-                    isFlying = true;
+                    isFlying = true; //wingsOut = true;
                 }
             }
             else

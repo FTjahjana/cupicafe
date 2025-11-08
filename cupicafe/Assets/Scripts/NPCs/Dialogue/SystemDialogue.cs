@@ -5,18 +5,25 @@ using System.Collections.Generic;
 
 public class SystemDialogue : MonoBehaviour
 {
-    private NPCDialogueTest dialogueThing;
+    private Dialogues dialogues;
 
     void Start()
     {
         StartCoroutine(CallSysDialogue());
     }
-    
+
     IEnumerator CallSysDialogue()
     {
         yield return new WaitForSeconds(2f);
-        dialogueThing = gameObject.GetComponent<NPCDialogueTest>();
-        if (dialogueThing != null) { dialogueThing.TriggerDialogue(); }
+
+        dialogues = GetComponent<Dialogues>();
+        if (dialogues != null)
+        {
+            dialogues.TriggerDialogue();
+        }
         yield return null;
     }
+    
+    
+
 }

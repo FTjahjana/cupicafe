@@ -5,7 +5,7 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager Instance { get; private set; }
 
-    private List<Quest> activeQuests = new List<Quest>();
+    private List<Quest> Quests = new List<Quest>();
 
     public GameObject Target1, Target2;
 
@@ -23,21 +23,21 @@ public class QuestManager : MonoBehaviour
 
     public void AddQuest(Quest quest)
     {
-        if (!activeQuests.Contains(quest))
+        if (!Quests.Contains(quest))
         {
-            activeQuests.Add(quest);
-            Debug.Log($"Quest added: {quest.title}");
+            Quests.Add(quest);
+            Debug.Log($"Quest added: {quest.questName}");
         }
     }
 
     public void CompleteQuest(Quest quest)
     {
-        if (activeQuests.Contains(quest))
+        if (Quests.Contains(quest))
         {
-            activeQuests.Remove(quest);
-            Debug.Log($"Quest completed: {quest.title}");
+            Quests.Remove(quest);
+            Debug.Log($"Quest completed: {quest.questName}");
         }
     }
 
-    public bool HasQuest(Quest quest) => activeQuests.Contains(quest);
+    public bool HasQuest(Quest quest) => Quests.Contains(quest);
 }
