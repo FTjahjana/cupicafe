@@ -2404,6 +2404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInput: {fileID: 491271450}
   activityActions: []
+  bowMode: 0
   moveAction:
     m_Name: Move
     m_Type: 0
@@ -2437,7 +2438,8 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   playerCamera: {fileID: 162923378}
-  lookSensitivity: 0.25
+  lookSensitivityDefault: 0.5
+  lookSensitivity: 0
   upDownRange: 80
   jumpAction:
     m_Name: Jump
@@ -2451,6 +2453,7 @@ MonoBehaviour:
   jumpSpeed: 5
   gravity: 10
   isFlying: 0
+  wingsOut: 0
   cursorToggleAction:
     m_Name: Cursor Toggle
     m_Type: 0

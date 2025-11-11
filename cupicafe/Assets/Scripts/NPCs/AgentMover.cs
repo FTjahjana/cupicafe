@@ -1,30 +1,43 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections.Generic;
 
 public class AgentMover : MonoBehaviour
 {
-    public Transform target;
+    [Header("Waypoint Stuff")]
+    public List<Transform> waypoints;
+    private int currentIndex;
+    public Transform currentDestination;
+    public float offsetDistance;
+
+    [Header("Agent Stuff")]
+    public float agentSpeed;
+
     private NavMeshAgent agent;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        
         if (agent == null) Debug.LogError("navmeshagent missing");
+
+        currentIndex = 0;
+        currentDestination = waypoints[currentIndex];
+        agent.destination = currentDestination.position;
+        agent.speed = agentSpeed;
     }
 
     void Update()
     {
-        if (agent != null && target != null)
+        if (Vector3.Distance(transform.position, currentDestination.position) < offsetDistance)
         {
-            agent.SetDestination(target.position);
-        }
-        else if (target == null)
-        {
-            if (agent != null && agent.enabled && agent.hasPath)
+            currentIndex++;
+            if (currentIndex == waypoints.Count)
             {
-                agent.ResetPath();
+                currentIndex = 0;
             }
+            currentDestination = waypoints[currentIndex];
+            agent.destination = currentDestination.position;
+
         }
     }
 }

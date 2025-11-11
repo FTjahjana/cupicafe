@@ -12,6 +12,8 @@ public class PlayerMovement3D : MonoBehaviour
     public PlayerInput playerInput;
     public List<InputAction> activityActions = new List<InputAction>();
 
+    public bool bowMode;
+
     [Header("Move")]
     public InputAction moveAction;
     public CharacterController characterController;
@@ -26,7 +28,7 @@ public class PlayerMovement3D : MonoBehaviour
     [Header("Look")]
     public InputAction lookAction;
     public GameObject playerCamera;
-    public float lookSensitivity = 2.0f;
+    [SerializeField] private float lookSensitivityDefault = .5f; public float lookSensitivity;
     public float upDownRange = 80.0f;
     private float yRotation;
 
@@ -37,7 +39,7 @@ public class PlayerMovement3D : MonoBehaviour
     private Vector3 movingDirection = Vector3.zero;
 
     [Header("Fly")]
-    public bool isFlying;
+    public bool isFlying; public bool wingsOut;
 
     [Header("Cursor Toggle")]
     public InputAction cursorToggleAction;
@@ -59,6 +61,7 @@ public class PlayerMovement3D : MonoBehaviour
     void Start()
     {
         sprintStamina = maxSprintStamina;
+        lookSensitivity = lookSensitivityDefault;
 
         activityActions.Add(moveAction); activityActions.Add(shiftAction);
         activityActions.Add(lookAction); activityActions.Add(jumpAction);
@@ -77,6 +80,8 @@ public class PlayerMovement3D : MonoBehaviour
         cursorToggle();
         Jump();
         Fly();
+
+        if (Input.GetKeyDown(KeyCode.B)) ToggleBowMode(!bowMode);
 
     }
 
@@ -118,7 +123,7 @@ public class PlayerMovement3D : MonoBehaviour
         bool sprinting = shiftAction.IsPressed() && sprintStamina > 0 &&
                         (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0);
 
-        moveSpeed = sprinting ? moveSpeed * 2.5f : baseMoveSpeed;
+        moveSpeed = sprinting ? baseMoveSpeed * 2.5f : baseMoveSpeed;
         sprintStamina += (sprinting ? -1 : sprintRegenRate) * Time.deltaTime;
         sprintStamina = Mathf.Clamp(sprintStamina, 0, maxSprintStamina);
     }
@@ -174,12 +179,12 @@ public class PlayerMovement3D : MonoBehaviour
             {   if (isFlying)
                 {
                     Debug.Log("flying off");
-                    isFlying = false; //wingsOut = false;
+                    isFlying = false; wingsOut = false;
                 }
                 else
                 {
                     Debug.Log("flying initiated");
-                    isFlying = true; //wingsOut = true;
+                    isFlying = true; wingsOut = true;
                 }
             }
             else
@@ -195,5 +200,25 @@ public class PlayerMovement3D : MonoBehaviour
         };
     }
 
+    void ToggleBowMode(bool state)
+    {
+        Debug.Log("Bow Mode toggled" + state);
 
+        bowMode = state;
+        wingsOut = state;
+
+        if (bowMode)
+        {
+            Debug.Log("Bowmode On");
+            lookSensitivity = lookSensitivityDefault / 50f;
+            moveSpeed = moveSpeed / 100f;
+        }
+        else
+        {
+            Debug.Log("Bowmode Off");
+            lookSensitivity = lookSensitivityDefault;
+            moveSpeed = baseMoveSpeed;
+        }
+    
+    }
 }

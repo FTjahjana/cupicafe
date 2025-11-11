@@ -53,11 +53,10 @@
     <Compile Include="Assets\Scripts\timebasescript.cs" />
     <Compile Include="Assets\Scripts\System\QuestManager.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Door.cs" />
+    <Compile Include="Assets\Scripts\NPCs\Dialogue\DialogueChain.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\Scripts\System\QuestSequence.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\IInteractable.cs" />
     <Compile Include="Assets\Scripts\NPCs\NPCQueue.cs" />
-    <Compile Include="Assets\Scripts\NPCs\Dialogue\Dialogues.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\ArrowController.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\InteractRaycast.cs" />
     <Compile Include="Assets\Scripts\NPCs\Dialogue\DialogueManager.cs" />
@@ -65,19 +64,18 @@
     <Compile Include="Assets\Scripts\UI_UX\holdMeter.cs" />
     <Compile Include="Assets\Scripts\NPCs\NPCSpawner.cs" />
     <Compile Include="Assets\Scripts\NPCs\AgentMover.cs" />
-    <Compile Include="Assets\Scripts\System\SequenceRunner.cs" />
     <Compile Include="Assets\Scripts\UI_UX\AnimationScreen.cs" />
     <Compile Include="Assets\Scripts\System\GameManager.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Pickupable.cs" />
     <Compile Include="Assets\Scripts\System\Quest.cs" />
-    <Compile Include="Assets\Scripts\System\EventManager.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\PlayerMovement3D.cs" />
-    <Compile Include="Assets\Scripts\System\QuestDebugListener.cs" />
     <Compile Include="Assets\Scripts\NPCs\Dialogue\Dialogue.cs" />
+    <Compile Include="Assets\Scripts\System\QuestTrigger.cs" />
     <Compile Include="Assets\Scripts\UI_UX\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\BowController.cs" />
     <Compile Include="Assets\Scripts\UI_UX\Inventory.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\Book.cs" />
+    <Compile Include="Assets\Scripts\System\ConditionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

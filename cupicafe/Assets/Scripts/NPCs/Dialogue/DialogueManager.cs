@@ -14,6 +14,8 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentences; public string playerName = "Player";
     [SerializeField] private GameObject dialoguePanel, inputPanel;
 
+    public bool dialogueFinished = false;
+
     public Animator animator;
 
     void Awake()
@@ -43,6 +45,8 @@ public class DialogueManager : MonoBehaviour
         else
         {
             if (dialoguePanel.activeInHierarchy == false) dialoguePanel.SetActive(true);
+
+            dialogueFinished = false;
 
             animator.SetBool("isOpen", true);
 
@@ -81,6 +85,7 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("End of dialogue");
         animator.SetBool("isOpen", false);
+        dialogueFinished = true;
     }
 
     public void ChangeName() { if (inputPanel.activeInHierarchy) playerName = InputText.text; inputPanel.SetActive(false);}

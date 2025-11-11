@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class SystemDialogue : MonoBehaviour
 {
-    private Dialogues dialogues;
+    private DialogueChain dialogues;
 
     void Start()
     {
@@ -16,7 +16,7 @@ public class SystemDialogue : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
 
-        dialogues = GetComponent<Dialogues>();
+        dialogues = GetComponent<DialogueChain>();
         if (dialogues != null)
         {
             dialogues.TriggerDialogue();

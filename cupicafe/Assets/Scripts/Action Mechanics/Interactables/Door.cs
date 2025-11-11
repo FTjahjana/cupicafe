@@ -14,9 +14,25 @@ public class Door : MonoBehaviour, IInteractable
     public void Interact()
     {
         isOpen = !isOpen;
-        Debug.Log(isOpen ? "Door opened." : "Door closed.");
-        anim.Play(isOpen ? "Open" : "Close");
+        if (isOpen) OpenDoor(); else CloseDoor();
+    }
 
+    void OpenDoor()
+    {
+        if (!isOpen)
+        {
+            Debug.Log("Door opened.");
+            anim.Play("Open");
+        }
+    }
+
+    void CloseDoor()
+    {
+        if (isOpen)
+        {
+            Debug.Log("Door closed.");
+            anim.Play("Close");
+        }
     }
 
 

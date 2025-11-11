@@ -9,7 +9,7 @@ public class NPCSpawner : MonoBehaviour
 
     public int NPCCounter;
 
-    public Transform target;
+    public List<Transform> waypoints;
     
     public float startDelay;
 
@@ -29,7 +29,8 @@ public class NPCSpawner : MonoBehaviour
 
     void Start()
     {
-        EventManager.OnQuestStarted += (quest) => StartCoroutine(SpawnAllRounds());
+        //EventManager.OnQuestStarted += (quest) => StartCoroutine(SpawnAllRounds());
+        StartCoroutine(SpawnAllRounds());
     }
 
     void Update()
@@ -53,9 +54,9 @@ public class NPCSpawner : MonoBehaviour
             GameObject newNPC = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);
 
             AgentMover agentMover = newNPC.GetComponent<AgentMover>();
-            if (agentMover != null && target != null)
+            if (agentMover != null && waypoints.Count > 0)
             {
-                agentMover.target = target;
+                agentMover.waypoints = new List<Transform>(waypoints);
                 NPCCounter++;
             }
             else
