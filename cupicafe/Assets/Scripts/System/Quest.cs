@@ -14,6 +14,8 @@ public class QuestStep
     public string name;
     public QuestStepType type;
 
+    public bool isCompleted;
+
     public Dialogue dialogue; 
         // used if type == Dialogue
 

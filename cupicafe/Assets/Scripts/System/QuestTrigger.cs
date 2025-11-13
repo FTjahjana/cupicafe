@@ -13,7 +13,9 @@ public class QuestTrigger : MonoBehaviour
     
     public void TriggerCondition()
     {
-        ConditionManager.Instance.SetConditionMet(conditionName);
+        //ConditionManager.Instance.SetConditionMet(conditionName);
+        GameManager.Instance.IncSOE();
+        this.enabled = false;
     }
 
     // For Dialogue Chain Triggers See: DialogueChain.cs

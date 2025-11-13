@@ -168,4 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 892e14e21980bd1489fef6b0d3a2da62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  waypoints: []
+  currentDestination: {fileID: 0}
+  offsetDistance: 0.5
+  agentSpeed: 2

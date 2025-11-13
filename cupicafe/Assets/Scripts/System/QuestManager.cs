@@ -8,6 +8,8 @@ public class QuestManager : MonoBehaviour
     private int currentQuestIndex = 0;
     private Quest CurrentQuest => quests[currentQuestIndex];
 
+    private int currentStepIndex = 0;
+
     private void Start()
     {
         StartCoroutine(RunQuest(CurrentQuest));
@@ -22,17 +24,19 @@ public class QuestManager : MonoBehaviour
                 case QuestStepType.Dialogue:
                     DialogueManager.Instance.StartDialogue(step.dialogue);
                     yield return new WaitUntil(() => DialogueManager.Instance.dialogueFinished);
+                    step.isCompleted = true;
                     break;
 
                 case QuestStepType.AnimatorSequence:
                     if (step.animator != null && !string.IsNullOrEmpty(step.animatorTrigger))
                         step.animator.SetTrigger(step.animatorTrigger);
-                    // Optional: wait for animation time or signal
+                    //uhhh wait
                     yield return new WaitForSeconds(2f);
+                    step.isCompleted = true;
                     break;
 
                 case QuestStepType.WaitForCondition:
-                    yield return new WaitUntil(() => QuestConditionMet(step.conditionName));
+                    yield return new WaitUntil(() => step.isCompleted);
                     break;
             }
         }
@@ -40,22 +44,23 @@ public class QuestManager : MonoBehaviour
         quest.isCompleted = true;
         yield return new WaitForSeconds(quest.delayAfterCompletion);
         Debug.Log($"Quest '{quest.questName}' complete!");
-        Debug.Log("Press C to start next quest...");
     }
 
-    private bool QuestConditionMet(string name)
+    public void SetConditionMet(string name)
     {
-        // quest-specific condition 
-        return  ConditionManager.Instance.IsConditionMet(name);;
+         if (currentStepIndex >= CurrentQuest.steps.Count) return;
+
+            var step = CurrentQuest.steps[currentStepIndex];
+            if (step.name == name)
+            {
+                step.isCompleted = true;
+                Debug.Log($"Step '{name}' completed!");
+                currentStepIndex++;
+            }
+            else
+            {
+                Debug.LogWarning($"Can't complete '{name}' yet. Next step is '{step.name}'.");
+            }
     }
 
-    /*private void Update()
-    {
-        if (CurrentQuest.isCompleted && Input.GetKeyDown(KeyCode.C))
-        {
-            currentQuestIndex++;
-            if (currentQuestIndex < quests.Count)
-                StartCoroutine(RunQuest(quests[currentQuestIndex]));
-        }
-    }*/
 }

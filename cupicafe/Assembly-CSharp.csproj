@@ -57,6 +57,7 @@
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\IInteractable.cs" />
     <Compile Include="Assets\Scripts\NPCs\NPCQueue.cs" />
+    <Compile Include="Assets\Scripts\System\SOE.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\Interactables\ArrowController.cs" />
     <Compile Include="Assets\Scripts\Action Mechanics\InteractRaycast.cs" />
     <Compile Include="Assets\Scripts\NPCs\Dialogue\DialogueManager.cs" />

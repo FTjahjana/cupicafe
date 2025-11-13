@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,7 +15,8 @@ public class DialogueManager : MonoBehaviour
     private Queue<string> sentences; public string playerName = "Player";
     [SerializeField] private GameObject dialoguePanel, inputPanel;
 
-    public bool dialogueFinished = false;
+    public bool dialogueFinished = false; public event Action UnleashTheTrigger;
+    public bool triggerSet = false;
 
     public Animator animator;
 
@@ -86,6 +88,10 @@ public class DialogueManager : MonoBehaviour
         Debug.Log("End of dialogue");
         animator.SetBool("isOpen", false);
         dialogueFinished = true;
+
+        if (triggerSet) { UnleashTheTrigger?.Invoke(); }
+        
+        triggerSet = false;
     }
 
     public void ChangeName() { if (inputPanel.activeInHierarchy) playerName = InputText.text; inputPanel.SetActive(false);}

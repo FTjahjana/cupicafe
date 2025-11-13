@@ -5,12 +5,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public int SOEindex; public SOE SOE;
+
     public GameObject Player;
     public Transform hand; public bool handIsHolding = false;
 
     public float mapRadius; public Vector3 mapCenter;
-    
+
     public bool inGame;
+    
 
     void Awake()
     {
@@ -44,12 +47,18 @@ public class GameManager : MonoBehaviour
             Player = GameObject.FindGameObjectWithTag("Player");
             hand = GameObject.FindGameObjectWithTag("Hand").transform;
 
+            SOE = GameObject.FindGameObjectWithTag("SOE").GetComponent<SOE>();
         }
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red; 
+        Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(mapCenter, mapRadius);
     }
+    
+    public void IncSOE(){ 
+        if (SOE != null) {SOEindex++; SOE.IncSOE();}
+        else Debug.Log("SOE Unassigned");
+     }
 }

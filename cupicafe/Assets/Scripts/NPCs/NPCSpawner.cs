@@ -17,7 +17,7 @@ public class NPCSpawner : MonoBehaviour
     public float spawnRadius = 5f;
 
     [System.Serializable]
-    public struct SpawnRound
+    public struct spawnRound
     {
         public int amount;
         public float rate;
@@ -25,7 +25,7 @@ public class NPCSpawner : MonoBehaviour
         public float timeUntilNextRound;
     }
     
-    public List<SpawnRound> spawnRounds;
+    public List<spawnRound> spawnRounds;
 
     void Start()
     {
@@ -57,6 +57,7 @@ public class NPCSpawner : MonoBehaviour
             if (agentMover != null && waypoints.Count > 0)
             {
                 agentMover.waypoints = new List<Transform>(waypoints);
+                agentMover.NPC_ID = NPCCounter;
                 NPCCounter++;
             }
             else
@@ -78,7 +79,7 @@ public class NPCSpawner : MonoBehaviour
             yield return new WaitForSeconds(rate);
         }
     }
-    
+
     IEnumerator SpawnAllRounds()
     {
         yield return new WaitForSeconds(startDelay);
@@ -88,6 +89,11 @@ public class NPCSpawner : MonoBehaviour
             yield return StartCoroutine(SpawnNPCsCoroutine(n.amount, n.rate));
             yield return new WaitForSeconds(n.timeUntilNextRound);
         }
+    }
+    
+    public void SpawnRound(int i)
+    {
+        StartCoroutine(SpawnNPCsCoroutine(spawnRounds[i].amount, spawnRounds[i].rate));
     }
 
 }

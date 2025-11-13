@@ -4,7 +4,8 @@ using UnityEngine;
 public class ConditionManager : MonoBehaviour
 {
     public static ConditionManager Instance;
-    private HashSet<string> metConditions = new HashSet<string>();
+    public List<string> Conditions;
+    int index = 0;
 
     private void Awake()
     {
@@ -14,13 +15,20 @@ public class ConditionManager : MonoBehaviour
 
     public void SetConditionMet(string name)
     {
-        metConditions.Add(name);
-        Debug.Log($"Condition '{name}' marked as met.");
+        if (index < Conditions.Count && name == Conditions[index])
+        {
+            index++;
+            Conditions.Add(name);
+            Debug.Log($"Condition '{name}' marked as met.");
+        }
+        else Debug.Log($"Can't meet {name} yet.");
     }
 
     public bool IsConditionMet(string name)
     {
-        return metConditions.Contains(name);
+        return Conditions.Contains(name);
     }
+
+    [SerializeField] private string NextCondition => index < Conditions.Count ? Conditions[index] : null;
     
 }

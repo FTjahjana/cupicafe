@@ -12,22 +12,33 @@ public class DialogueChain : MonoBehaviour
     void Start()
     {
         Button btn = GetComponent<Button>();
-        if (btn != null) { btn.onClick.AddListener(() => TriggerDialogue()); }
+        if (btn != null) { btn.onClick.AddListener(TriggerDialogue); }
 
         questTrigger = GetComponent<QuestTrigger>();
+        DialogueManager.Instance.UnleashTheTrigger += IGotTheTrigger;
     }
 
     public void TriggerDialogue()
     {
-        if (dialogues[currentIndex].sentences.Length != 0 || dialogues[currentIndex].name == "Input")
+        if (currentIndex < dialogues.Length)
         {
-            DialogueManager.Instance.StartDialogue(dialogues[currentIndex]);
-        } else Debug.Log("Dialogues missing.. I think");
-
-        if (currentIndex + 1 < dialogues.Length) currentIndex++;
-
-        if (currentIndex + 1 == dialogues.Length && questTrigger != null) 
-            questTrigger.TriggerCondition();
+            var dialogue = dialogues[currentIndex];
+            if (dialogue.sentences.Length != 0 || dialogue.name == "Input")
+                {DialogueManager.Instance.StartDialogue(dialogue);
+                Debug.Log("Playing dialogue no." + currentIndex + 1 + "/" + dialogues.Length);
+                if(questTrigger != null) { DialogueManager.Instance.triggerSet = true; }
+            }
+            else
+                {Debug.Log("Dialogues missing.. I think");}
+        
+            currentIndex++;
+        }
+        
     }
     
+    private void IGotTheTrigger()
+    {    
+        questTrigger.TriggerCondition();
+    }
+
 }
