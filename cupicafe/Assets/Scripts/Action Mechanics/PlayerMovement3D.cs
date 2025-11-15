@@ -15,7 +15,7 @@ public class PlayerMovement3D : MonoBehaviour
     public bool bowMode;
 
     [Header("Move")]
-    public InputAction moveAction;
+    public InputAction moveAction; public InputAction verticalMoveAction;
     public CharacterController characterController;
     public float moveSpeed = 3, baseMoveSpeed = 3;
 
@@ -50,6 +50,7 @@ public class PlayerMovement3D : MonoBehaviour
     {
         //playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
+        verticalMoveAction = playerInput.actions.FindAction("VerticalMove");
         lookAction = playerInput.actions.FindAction("Look");
         jumpAction = playerInput.actions.FindAction("Jump");
         shiftAction = playerInput.actions.FindAction("Shift");
@@ -63,9 +64,10 @@ public class PlayerMovement3D : MonoBehaviour
         sprintStamina = maxSprintStamina;
         lookSensitivity = lookSensitivityDefault;
 
-        activityActions.Add(moveAction); activityActions.Add(shiftAction);
-        activityActions.Add(lookAction); activityActions.Add(jumpAction);
+        activityActions.Add(moveAction); activityActions.Add(verticalMoveAction); activityActions.Add(shiftAction);
+        activityActions.Add(lookAction); activityActions.Add(jumpAction); 
 
+        ToggleActions(false);
     }
 
 
@@ -106,11 +108,11 @@ public class PlayerMovement3D : MonoBehaviour
         //flight
         if (isFlying)
         {
-            float vertical = 0f;
-            if (Keyboard.current.eKey.isPressed) vertical = moveSpeed;
-            if (Keyboard.current.qKey.isPressed) vertical = -moveSpeed;
+            float verticalInput = verticalMoveAction.ReadValue<float>();
+            float vertical = verticalInput * moveSpeed;
+            Vector3 verticalMovement = Vector3.up * vertical;
 
-            Vector3 move = horizontalMovement + Vector3.up * vertical;
+            Vector3 move = horizontalMovement + verticalMovement;
             characterController.Move(move * Time.deltaTime);
         } else {
             //move the character
@@ -185,16 +187,6 @@ public class PlayerMovement3D : MonoBehaviour
                 {
                     Debug.Log("flying initiated");
                     isFlying = true; wingsOut = true;
-                }
-            }
-            else
-            { if (isFlying)
-            {
-                Debug.Log("We're going up up up");
-                    if (shiftAction.IsPressed())
-                    {
-                        Debug.Log("We're going down.");
-                    }
                 }
             }
         };

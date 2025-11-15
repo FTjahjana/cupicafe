@@ -15,7 +15,7 @@ public class DialogueChain : MonoBehaviour
         if (btn != null) { btn.onClick.AddListener(TriggerDialogue); }
 
         questTrigger = GetComponent<QuestTrigger>();
-        DialogueManager.Instance.UnleashTheTrigger += IGotTheTrigger;
+        DialogueManager.Instance.DialogueEnded += IGotTheTrigger;
     }
 
     public void TriggerDialogue()

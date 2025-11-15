@@ -16,9 +16,9 @@ public class MainMenu : MonoBehaviour
    
     void Start()
     {
-        inGame = GameManager.Instance.inGame;
-        if (inGame) playerMovementScript.ToggleActions(false);
+        
     }
+
 
     void OnEnable() {if (inGame) playerMovementScript.ToggleActions(false);}
     void OnDisable() {if (inGame) playerMovementScript.ToggleActions(true);}
@@ -42,7 +42,9 @@ public class MainMenu : MonoBehaviour
     }
 
     public void Resume()
-    { // additional button functions in inspector: Main Menu GameObj false & Menu Trigger GameObj true 
+    {   
+        playerMovementScript.ToggleActions(true);
+        // additional button functions in inspector: Main Menu GameObj false & Menu Trigger GameObj true 
         //play pause anim backwards (set up in animator)
         //move the menutrigger thing from the X button to here
     }

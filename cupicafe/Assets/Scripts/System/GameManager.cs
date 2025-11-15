@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int SOEindex; public SOE SOE;
+    public int SOEindex = 0; public SOE SOE;
 
     public GameObject Player;
     public Transform hand; public bool handIsHolding = false;
@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     {
         if (scene.name == "Game")
         {
+            inGame = true;
             Player = GameObject.FindGameObjectWithTag("Player");
             hand = GameObject.FindGameObjectWithTag("Hand").transform;
 
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
     }
     
     public void IncSOE(){ 
-        if (SOE != null) {SOEindex++; SOE.IncSOE();}
+        if (SOE != null) {SOEindex++; SOE.NewSOE();}
         else Debug.Log("SOE Unassigned");
      }
 }

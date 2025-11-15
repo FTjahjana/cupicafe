@@ -9,16 +9,23 @@ public class DialogueManager : MonoBehaviour
 {
     public static DialogueManager Instance { get; private set; }
 
-    public TextMeshProUGUI nameText, dialogueText;
-    public TMP_InputField InputText;
-
     private Queue<string> sentences; public string playerName = "Player";
-    [SerializeField] private GameObject dialoguePanel, inputPanel;
 
-    public bool dialogueFinished = false; public event Action UnleashTheTrigger;
-    public bool triggerSet = false;
+    [Header("Dialogue Panel")]
+    [SerializeField] private GameObject dialoguePanel;
+    public TextMeshProUGUI nameText, dialogueText; public Animator DP_Animator;
 
-    public Animator animator;
+    [Header("Notif Panel")]
+    [SerializeField] private GameObject notifPanel;
+    public TextMeshProUGUI notifText; public Animator NP_Animator;
+
+    [Header("Input Panel")]
+    [SerializeField] private GameObject inputPanel;
+    public TextMeshProUGUI inputPrompt; public TMP_InputField InputText; public Animator IP_Animator;
+    
+    [Header("Dialogue Events")]
+    public bool dialogueFinished = false; public event Action DialogueEnded;
+    public bool triggerSet = false; 
 
     void Awake()
     {
@@ -39,18 +46,11 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(Dialogue dialogue)
     {
-        if (dialogue.name == "Input")
-        {
-            if (inputPanel.activeInHierarchy == false) inputPanel.SetActive(true);
-            //animator.SetBool("InputPanelOpen", false);
-        }
-        else
-        {
             if (dialoguePanel.activeInHierarchy == false) dialoguePanel.SetActive(true);
 
             dialogueFinished = false;
 
-            animator.SetBool("isOpen", true);
+            DP_Animator.SetBool("isOpen", true);
 
             if (dialogue.name == "Player") nameText.text = playerName;
             else nameText.text = dialogue.name;
@@ -64,9 +64,19 @@ public class DialogueManager : MonoBehaviour
             }
 
             DisplayNextSentence();
-        }
     }
-
+    public void StartDialogue(Notif_Dialogue notif)
+    {
+        if (notifPanel.activeInHierarchy == false) notifPanel.SetActive(true);
+        //NP_Animator.SetBool("NotifPanelOpen", false);
+        //else close, replace text, then open again.
+    }
+    public void StartDialogue(Input_Dialogue input)
+    {
+        if (inputPanel.activeInHierarchy == false) inputPanel.SetActive(true);
+            //IP_Animator.SetBool("InputPanelOpen", false);
+    }
+    
     public void DisplayNextSentence()
     {
         if (sentences.Count == 0)
@@ -75,7 +85,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         string sentence = sentences.Dequeue();
-        if(sentence.Contains("[Player]"))
+        if (sentence.Contains("[Player]"))
         {
             sentence = sentence.Replace("[Player]", playerName);
             Debug.Log(sentence);
@@ -86,10 +96,10 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         Debug.Log("End of dialogue");
-        animator.SetBool("isOpen", false);
+        DP_Animator.SetBool("isOpen", false);
         dialogueFinished = true;
 
-        if (triggerSet) { UnleashTheTrigger?.Invoke(); }
+        if (triggerSet) { DialogueEnded?.Invoke(); }
         
         triggerSet = false;
     }

@@ -27,6 +27,7 @@ public class QuestTrigger : MonoBehaviour
             TriggerCondition();
     }
 
+    // For action-based Triggers
     private void OnActionPerformed(InputAction.CallbackContext context)
     {
         TriggerCondition();
