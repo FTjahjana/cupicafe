@@ -47,11 +47,10 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(Dialogue dialogue)
     {
             if (dialoguePanel.activeInHierarchy == false) dialoguePanel.SetActive(true);
+            DP_Animator.SetTrigger("Open");
 
             dialogueFinished = false;
-
-            DP_Animator.SetBool("isOpen", true);
-
+            
             if (dialogue.name == "Player") nameText.text = playerName;
             else nameText.text = dialogue.name;
 
@@ -68,13 +67,13 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(Notif_Dialogue notif)
     {
         if (notifPanel.activeInHierarchy == false) notifPanel.SetActive(true);
-        //NP_Animator.SetBool("NotifPanelOpen", false);
+        NP_Animator.SetTrigger("Open");
         //else close, replace text, then open again.
     }
     public void StartDialogue(Input_Dialogue input)
     {
         if (inputPanel.activeInHierarchy == false) inputPanel.SetActive(true);
-            //IP_Animator.SetBool("InputPanelOpen", false);
+        DP_Animator.SetTrigger("Open");
     }
     
     public void DisplayNextSentence()
@@ -96,7 +95,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         Debug.Log("End of dialogue");
-        DP_Animator.SetBool("isOpen", false);
+        DP_Animator.SetTrigger("Close"); dialoguePanel.SetActive(false);
         dialogueFinished = true;
 
         if (triggerSet) { DialogueEnded?.Invoke(); }

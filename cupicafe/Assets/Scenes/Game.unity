@@ -317,7 +317,7 @@ GameObject:
   - component: {fileID: 41678303}
   - component: {fileID: 41678305}
   m_Layer: 6
-  m_Name: GameManager
+  m_Name: GameManagers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -375,9 +375,9 @@ MonoBehaviour:
   nameText: {fileID: 395449149}
   dialogueText: {fileID: 383426570}
   DP_Animator: {fileID: 2128012287}
-  notifPanel: {fileID: 0}
-  notifText: {fileID: 0}
-  NP_Animator: {fileID: 0}
+  notifPanel: {fileID: 1663492808}
+  notifText: {fileID: 819388003}
+  NP_Animator: {fileID: 1663492810}
   inputPanel: {fileID: 1892553852}
   inputPrompt: {fileID: 1771311924}
   InputText: {fileID: 1845502192}
@@ -6517,7 +6517,7 @@ Animator:
   m_GameObject: {fileID: 1663492808}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fcffcdf8ef46c8e45a81906ae0c2e408, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7453,13 +7453,15 @@ GameObject:
   - component: {fileID: 1892553853}
   - component: {fileID: 1892553855}
   - component: {fileID: 1892553854}
+  - component: {fileID: 1892553856}
+  - component: {fileID: 1892553857}
   m_Layer: 5
   m_Name: Input Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1892553853
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7470,7 +7472,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 530993207}
   - {fileID: 1771311923}
@@ -7521,6 +7523,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1892553852}
   m_CullTransparentMesh: 1
+--- !u!95 &1892553856
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892553852}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7a0661179ecc2d04d92d80624a6a5684, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!225 &1892553857
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892553852}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1921580775
 GameObject:
   m_ObjectHideFlags: 0
@@ -7569,15 +7605,9 @@ MonoBehaviour:
   Quests:
   - questName: Tutorial
     numOfQuestParts: 8
+    triggers: []
   currentQuestID: 0
-  dialogues:
-  - rid: -2
-  - rid: -2
-  references:
-    version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+  SOE_Dialogues: {fileID: 1921580778}
 --- !u!114 &1921580778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7591,21 +7621,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogues:
-  - rid: 53060545285455978
-  - rid: 53060545285455979
+  - rid: 53060610055471175
+  - rid: 53060610055471183
+  - rid: 53060610055471186
+  - rid: 53060610055471187
+  - rid: 53060610055471188
   delay: 1
   references:
     version: 2
     RefIds:
-    - rid: 53060545285455978
+    - rid: 53060610055471175
       type: {class: Dialogue, ns: , asm: Assembly-CSharp}
       data:
-        name: 
-        sentences: []
-    - rid: 53060545285455979
+        name: ???
+        sentences:
+        - '*mic noise* Is this thing on?'
+    - rid: 53060610055471183
       type: {class: Notif_Dialogue, ns: , asm: Assembly-CSharp}
       data:
-        notifText: 
+        notifText: Press any key!
+    - rid: 53060610055471186
+      type: {class: Dialogue, ns: , asm: Assembly-CSharp}
+      data:
+        name: ???
+        sentences:
+        - 'Ahh! Hi there! Umm... '
+    - rid: 53060610055471187
+      type: {class: Input_Dialogue, ns: , asm: Assembly-CSharp}
+      data:
+        inputPrompt: 'Enter your name:'
+    - rid: 53060610055471188
+      type: {class: Dialogue, ns: , asm: Assembly-CSharp}
+      data:
+        name: ???
+        sentences:
+        - Well, whoever you are. This here's a pre-recording.
 --- !u!65 &1924969811
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8247,7 +8297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2128012286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8267,7 +8317,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -180}
+  m_AnchoredPosition: {x: 0, y: -500}
   m_SizeDelta: {x: -200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &2128012287
@@ -8280,7 +8330,7 @@ Animator:
   m_GameObject: {fileID: 2128012285}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 1f468b27207dd584b9fe3db26ad56446, type: 2}
+  m_Controller: {fileID: 9100000, guid: 0cd40fa2f5a707540bad91763d1665ec, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

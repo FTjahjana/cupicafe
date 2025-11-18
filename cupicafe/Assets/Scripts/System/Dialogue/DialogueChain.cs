@@ -8,6 +8,7 @@ public class DialogueChain : MonoBehaviour
     public Dialogue[] dialogues;
     private int currentIndex = 0;
     QuestTrigger questTrigger;
+    [SerializeField] private bool waitingForDialogueEnd;
 
     void Start()
     {

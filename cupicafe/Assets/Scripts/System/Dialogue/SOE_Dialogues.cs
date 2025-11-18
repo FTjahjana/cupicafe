@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueTrigger : MonoBehaviour
+public class SOE_Dialogues : MonoBehaviour
 {
-    [SerializeReference] // allows polymorphic serialization
+    [SerializeReference] 
     public List<DialogueType> dialogues;
 
     public float delay = 1f;
 
-    // Call this to trigger a specific dialogue in the list
     public void TriggerDialogue(int index)
     {
         if (index < 0 || index >= dialogues.Count) return;
         StartCoroutine(CallSysDialogue(delay, dialogues[index]));
     }
 
-    private IEnumerator CallSysDialogue(float preWait, DialogueType dialogue)
+    public IEnumerator CallSysDialogue(float preWait, DialogueType dialogue)
     {
         yield return new WaitForSeconds(preWait);
 

@@ -9,17 +9,18 @@ public class SOE : MonoBehaviour
 
     [System.Serializable]
     public class Quest
-    { public string questName;  public int numOfQuestParts; }
+    { public string questName;  public int numOfQuestParts; public List<QuestTrigger> triggers; }
 
     [Tooltip("Literally just see the script and edit everything except the Quest names there. It's very straighforward.")]
     int SOEindex; public List<Quest> Quests; public int currentQuestID;
-    [Tooltip("Oh yeah fill this one in Inspctor too")]
-    [SerializeReference] public List<DialogueType> dialogues;
+
+    public SOE_Dialogues SOE_Dialogues; List<DialogueType> dialogues;
 
     void Start()
     {
-        currentQuestID = 0;
-        RunSOE();
+        currentQuestID = 0; dialogues = SOE_Dialogues.dialogues;
+        RunSOE();   
+        
     }
 
     public void NewSOE()
@@ -45,13 +46,20 @@ public class SOE : MonoBehaviour
                 switch (SOEindex)
                 {
                     case 0:
-                        StartCoroutine(CallSysDialogue(2, dialogues[0]));
+                        StartCoroutine(SOE_Dialogues.CallSysDialogue(2, dialogues[0]));
+                        StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[1])); // notif
+
+                        Quests[0].triggers[0].enabled = true; //anykey trigger
                         break;
 
                     case 1:
+                        StartCoroutine(SOE_Dialogues.CallSysDialogue(2, dialogues[2]));
+                        StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[3])); // input
                         break;
 
                     case 2:
+                        StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[4]));
+                        Quests[0].triggers[1].enabled = true; // movement trigger
                         break;
 
                     case 3:
@@ -82,24 +90,6 @@ public class SOE : MonoBehaviour
 
             default:
                 break;
-        }
-    }
-
-    IEnumerator CallSysDialogue(float preWait, DialogueType dialogue)
-    {
-        yield return new WaitForSeconds(preWait);
-
-        if (dialogue is Dialogue d)
-        {
-            DialogueManager.Instance.StartDialogue(d);
-        }
-        else if (dialogue is Notif_Dialogue n)
-        {
-            DialogueManager.Instance.StartDialogue(n);
-        }
-        else if (dialogue is Input_Dialogue i)
-        {
-            DialogueManager.Instance.StartDialogue(i);
         }
     }
     

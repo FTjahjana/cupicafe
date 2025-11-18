@@ -71,6 +71,11 @@ public class NPCSpawner : MonoBehaviour
         }
     }
 
+    public void SpawnPopupNPC(Vector3 spawnPointPos, float spawnPointYRot)
+    {
+        Instantiate(npcPrefab, spawnPointPos, Quaternion.Euler(0, spawnPointYRot, 0));
+    }
+    
     IEnumerator SpawnNPCsCoroutine(int amount, float rate)
     {
         for (int i = 0; i < amount; i++)
