@@ -20,13 +20,13 @@ public class Book : MonoBehaviour, IInteractable
     public void OpenBook()
     {
         Debug.Log("Book opening.");
-        anim.Play("Open");
+        anim.SetTrigger("Open");
     }
 
     public void CloseBook()
     {
         Debug.Log("Book closing.");
-        anim.Play("Close");
+        anim.SetTrigger("Close");
     }
 
 }

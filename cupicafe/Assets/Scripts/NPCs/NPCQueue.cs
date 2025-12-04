@@ -8,13 +8,13 @@ public class NPCQueue : MonoBehaviour
     public class Slot
     {
         public Transform slotLoc;
-        public NPCBehaviour occupiedBy;
+        public CharAnimations occupiedBy;
         public bool occupied;
     }
 
     public List<Slot> slots = new List<Slot>();
 
-    public bool AssignSlot(NPCBehaviour npc)
+    public bool AssignSlot(CharAnimations npc)
     {
         foreach (var slot in slots)
         {
@@ -22,7 +22,7 @@ public class NPCQueue : MonoBehaviour
             {
                 slot.occupied = true;
                 npc.transform.SetPositionAndRotation(slot.slotLoc.position, slot.slotLoc.rotation);
-                npc.Animator.Play(npc.sitAnimation);
+                npc.anim.Play(npc.sitAnimation);
                 return true;
             }
         }

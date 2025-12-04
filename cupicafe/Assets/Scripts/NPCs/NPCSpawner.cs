@@ -30,7 +30,7 @@ public class NPCSpawner : MonoBehaviour
     void Start()
     {
         //EventManager.OnQuestStarted += (quest) => StartCoroutine(SpawnAllRounds());
-        StartCoroutine(SpawnAllRounds());
+        //StartCoroutine(SpawnAllRounds());
     }
 
     void Update()

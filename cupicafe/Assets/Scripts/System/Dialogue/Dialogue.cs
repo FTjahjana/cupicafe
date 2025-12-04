@@ -22,5 +22,6 @@ public class Notif_Dialogue : DialogueType
 [System.Serializable]
 public class Input_Dialogue : DialogueType
 {
+    public string inputTitle;
     [TextArea(3, 5)] public string inputPrompt;
 }

@@ -10,9 +10,9 @@ public class PlayerMovement3D : MonoBehaviour
 {
 
     public PlayerInput playerInput;
-    public List<InputAction> activityActions = new List<InputAction>();
+    private List<InputAction> activityActions = new List<InputAction>();
 
-    public bool bowMode;
+    public InputAction interactAction;
 
     [Header("Move")]
     public InputAction moveAction; public InputAction verticalMoveAction;
@@ -20,7 +20,7 @@ public class PlayerMovement3D : MonoBehaviour
     public float moveSpeed = 3, baseMoveSpeed = 3;
 
     [Header("Sprint")]
-    public InputAction shiftAction;
+    public InputAction sprintAction;
     public float maxSprintStamina = 5f;
     public float sprintRegenRate = 2f;
     private float sprintStamina;
@@ -41,9 +41,17 @@ public class PlayerMovement3D : MonoBehaviour
     [Header("Fly")]
     public bool isFlying; public bool wingsOut;
 
+    [Header("Bow Mode")]
+    public bool bowModeOn; public InputAction bowOffAction, bowOnAction;
+
     [Header("Cursor Toggle")]
     public InputAction cursorToggleAction;
     public GameObject cursorObj;
+
+    [Header("Stored Positions")]
+    public Vector3 behindCounterPos; public float behindCounterRotY;
+    public Vector3 startTutPos; public float startTutRotY;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -53,8 +61,11 @@ public class PlayerMovement3D : MonoBehaviour
         verticalMoveAction = playerInput.actions.FindAction("VerticalMove");
         lookAction = playerInput.actions.FindAction("Look");
         jumpAction = playerInput.actions.FindAction("Jump");
-        shiftAction = playerInput.actions.FindAction("Shift");
+        sprintAction = playerInput.actions.FindAction("Shift");
         cursorToggleAction = playerInput.actions.FindAction("cursorToggle");
+        bowOffAction = playerInput.actions.FindAction("Previous");
+        bowOnAction = playerInput.actions.FindAction("Next");
+        interactAction = playerInput.actions.FindAction("Interact");
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -64,10 +75,12 @@ public class PlayerMovement3D : MonoBehaviour
         sprintStamina = maxSprintStamina;
         lookSensitivity = lookSensitivityDefault;
 
-        activityActions.Add(moveAction); activityActions.Add(verticalMoveAction); activityActions.Add(shiftAction);
-        activityActions.Add(lookAction); activityActions.Add(jumpAction); 
+        activityActions.Add(moveAction); activityActions.Add(verticalMoveAction); activityActions.Add(sprintAction);
+        activityActions.Add(lookAction); activityActions.Add(jumpAction); activityActions.Add(cursorToggleAction);
+        activityActions.Add(bowOffAction); activityActions.Add(bowOnAction); activityActions.Add(interactAction);
 
-        ToggleActions(false);
+        //temp:
+        transform.position = startTutPos; transform.eulerAngles = new Vector3(0,startTutRotY,0);
     }
 
 
@@ -82,8 +95,7 @@ public class PlayerMovement3D : MonoBehaviour
         cursorToggle();
         Jump();
         Fly();
-
-        if (Input.GetKeyDown(KeyCode.B)) ToggleBowMode(!bowMode);
+        BowMode();
 
     }
 
@@ -122,7 +134,8 @@ public class PlayerMovement3D : MonoBehaviour
 
     void Sprint()
     {
-        bool sprinting = shiftAction.IsPressed() && sprintStamina > 0 &&
+        if (isFlying || bowModeOn) return;
+        bool sprinting = sprintAction.IsPressed() && sprintStamina > 0 &&
                         (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0);
 
         moveSpeed = sprinting ? baseMoveSpeed * 2.5f : baseMoveSpeed;
@@ -192,25 +205,33 @@ public class PlayerMovement3D : MonoBehaviour
         };
     }
 
-    void ToggleBowMode(bool state)
+    void BowMode()
     {
-        Debug.Log("Bow Mode toggled" + state);
-
-        bowMode = state;
-        wingsOut = state;
-
-        if (bowMode)
+        interactAction.performed += context =>
         {
-            Debug.Log("Bowmode On");
-            lookSensitivity = lookSensitivityDefault / 50f;
-            moveSpeed = moveSpeed / 100f;
+            if (context.interaction is HoldInteraction)
+            {
+                if (!bowModeOn)
+                {
+                    BowMode(true);
+                }
+            }
+        };
+
+        if (bowOnAction.WasPressedThisFrame() && !bowModeOn)
+        {
+            BowMode(true);
         }
-        else
+        else if (bowOffAction.WasPressedThisFrame() && bowModeOn)
         {
-            Debug.Log("Bowmode Off");
-            lookSensitivity = lookSensitivityDefault;
-            moveSpeed = baseMoveSpeed;
+            BowMode(false);
         }
     
+    }
+    void BowMode(bool on)
+    {
+        Debug.Log("Bowmode " + (on ? "On" : "Off")); bowModeOn = on;
+        lookSensitivity = on ? lookSensitivityDefault /20f : lookSensitivityDefault;
+        moveSpeed = on ? baseMoveSpeed / 5f : baseMoveSpeed;
     }
 }
