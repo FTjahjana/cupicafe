@@ -38,8 +38,8 @@ public class InteractRaycast : MonoBehaviour
                 if (raydebugLogOn) Debug.Log("Raycast has detected a " + hitData.collider.name);
                 if (interactAction.WasPressedThisFrame())
                 {
-                    Debug.Log("CLICKED!" + hitData.collider.name);
-                    Debug.Log("Now Trying to interact with" + hitData.collider.name);
+                    if (raydebugLogOn)Debug.Log("CLICKED!" + hitData.collider.name);
+                    if (raydebugLogOn)Debug.Log("Now Trying to interact with" + hitData.collider.name);
                     if (hitData.collider.TryGetComponent<IInteractable>(out var interactableObject))
                     { interactableObject.Interact(); }
                 }

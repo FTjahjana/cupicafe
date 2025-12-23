@@ -15,6 +15,7 @@ public class ArrowController : MonoBehaviour
     public float Length => length;
 
     private float mapRadius; private Vector3 mapCenter;
+    public Hearts hearts;
 
     void Awake()
     {
@@ -67,14 +68,22 @@ public class ArrowController : MonoBehaviour
         rb.isKinematic = true;
 
         if (collisionData.collider.CompareTag("NPC"))
-        { /*
+        {
             GameObject shot = collisionData.gameObject;
-            Debug.Log($"Shot {shot.name}!");
-            if (QuestManager.Instance.Target1 == null) { QuestManager.Instance.Target1 = shot; }
-            else if (QuestManager.Instance.Target2 == null) { QuestManager.Instance.Target2 = shot; }
-            else{ Debug.LogError("Both target slots are full and you're trying to shoot someone!"); }
-          */
+            bool npcshootable = shot.GetComponent<NPCInteract>().shootable;
+
+            if (hearts.CanShoot(shot)&& npcshootable)
+            {
+                Debug.Log($"{shot.name}: I've been shot!");
+                hearts.Shoot(shot);
+            }
+            else
+            {
+                Debug.Log($"{shot.name}: Unable to Shoot.");
+                return;
+            }
         }
+
     }
 }
 

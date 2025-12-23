@@ -13,17 +13,13 @@ public class MainMenu : MonoBehaviour
     public PlayerMovement3D playerMovementScript;
 
     [HideInInspector]public bool inGame;
-   
+    [HideInInspector]public bool toggleOnHold = false;
     void Start()
     {
         
     }
 
-
-    void OnEnable() {if (inGame) playerMovementScript.ToggleActions(false);}
-    void OnDisable() {if (inGame) playerMovementScript.ToggleActions(true);}
-
-    public void ShowInstruction(int InstructionsIndex)
+    public void ShowPage(int InstructionsIndex)
     {
         for (int i = 0; i < instructions.Length; i++)
         {
@@ -43,10 +39,8 @@ public class MainMenu : MonoBehaviour
 
     public void Resume()
     {   
-        playerMovementScript.ToggleActions(true);
-        // additional button functions in inspector: Main Menu GameObj false & Menu Trigger GameObj true 
-        //play pause anim backwards (set up in animator)
-        //move the menutrigger thing from the X button to here
+        if(!toggleOnHold)playerMovementScript.ToggleActions(true);
+        // additional button functions in inspector: Main Menu GameObj false & Menu Trigger GameObj true & resume anim plays.      
     }
 
     public void Options()

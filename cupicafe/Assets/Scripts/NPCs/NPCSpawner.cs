@@ -6,14 +6,18 @@ using System.Collections.Generic;
 public class NPCSpawner : MonoBehaviour
 {
     public GameObject npcPrefab;
+    public GameObject[] specialNpcVariants;
 
     public int NPCCounter;
 
-    public List<Transform> waypoints;
+    //public List<Transform> waypoints;
+    public NPCQueue npcQueue;
+    public Transform waitOutsideSpot;
+    public Collider welcmatCol;
     
     public float startDelay;
 
-    public int numberOfNPCs = 10;
+    public int numberOfNPCs = 0;
     public float spawnRadius = 5f;
 
     [System.Serializable]
@@ -41,6 +45,8 @@ public class NPCSpawner : MonoBehaviour
 
     void SpawnNPC()
     {
+        if (numberOfNPCs > 7) {Debug.LogWarning("Too many NPCs are in the scene right now, try spawn again late.r"); return;}
+        if (npcQueue.waitingAgents.Count > 3) {Debug.LogWarning("Too many NPCs waiting outside door. Let them in before trying to spawn more."); return;}
         Vector3 randomPoint = transform.position + Random.insideUnitSphere //just found this.. cool
         * spawnRadius;
         randomPoint.y = transform.position.y;
@@ -54,16 +60,23 @@ public class NPCSpawner : MonoBehaviour
             GameObject newNPC = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);
 
             AgentMover agentMover = newNPC.GetComponent<AgentMover>();
-            if (agentMover != null && waypoints.Count > 0)
+            if (agentMover != null /*&& waypoints.Count > 0*/)
             {
-                agentMover.waypoints = new List<Transform>(waypoints);
+                //agentMover.waypoints = new List<Transform>(waypoints);
                 agentMover.NPC_ID = NPCCounter;
+                newNPC.name = "NPC" + agentMover.NPC_ID;
                 NPCCounter++;
+
+                agentMover.npcQueue = npcQueue;
+                agentMover.waitOutsideSpot = waitOutsideSpot;
+                agentMover.welcmatCol = welcmatCol;
             }
             else
             {
                 Debug.LogWarning("uhh somethings missing either agentMover script or the target.");
             }
+
+            numberOfNPCs++;
         }
         else
         {
@@ -73,7 +86,29 @@ public class NPCSpawner : MonoBehaviour
 
     public void SpawnPopupNPC(Vector3 spawnPointPos, float spawnPointYRot)
     {
-        Instantiate(npcPrefab, spawnPointPos, Quaternion.Euler(0, spawnPointYRot, 0));
+        GameObject newNPC = Instantiate(npcPrefab, spawnPointPos, Quaternion.Euler(0, spawnPointYRot, 0));
+        
+        newNPC.GetComponent<NavMeshAgent>().enabled = false;
+        newNPC.GetComponent<AgentMover>().enabled = false;
+
+        Rigidbody rb = newNPC.GetComponent<Rigidbody>(); rb.useGravity = true; rb.isKinematic = false;
+    }
+
+    public GameObject SpawnPopupNPC(string name, Vector3 spawnPointPos, float spawnPointYRot)
+    {
+        foreach (var v in specialNpcVariants) {
+        if (v.name == name) {
+            GameObject newNPC = Instantiate(v, spawnPointPos, Quaternion.Euler(0, spawnPointYRot, 0));
+            newNPC.GetComponent<NavMeshAgent>().enabled = false;
+            newNPC.GetComponent<AgentMover>().enabled = false;
+
+            Rigidbody rb = newNPC.GetComponent<Rigidbody>(); rb.useGravity = true; rb.isKinematic = false;
+
+            return newNPC;
+        } }
+
+        Debug.LogError("Trying to spawn nonexistent special npc prefab variant!");
+        return null;
     }
     
     IEnumerator SpawnNPCsCoroutine(int amount, float rate)

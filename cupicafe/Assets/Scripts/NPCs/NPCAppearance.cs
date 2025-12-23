@@ -1,25 +1,34 @@
-using UnityEngine;
+using UnityEngine; using UnityEngine.UI;
 
 public class NPCAppearance : MonoBehaviour
 {
-    public bool randomize = true;
+    public bool randomize; // should usually be on.
 
     public Renderer[] renderers;
 
     [Header("Head Stuff")]
-    public int headIndex = 0;
-    public MeshFilter headMesh; public Mesh[] headOptions;
+    public MeshFilter headMesh; public Mesh[] headOptions; 
+    public SpriteRenderer face; public Sprite[] faceSprites;
+
+    [Header("Custom")]
+    public int chosenHeadId, chosenfaceId; public Color chosenColor;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (randomize)
         {
-            headIndex = Random.Range(0, headOptions.Length);
-        }
+            headMesh.mesh = headOptions[Random.Range(0, headOptions.Length)];
+            face.sprite = faceSprites[Random.Range(0, faceSprites.Length)];
 
-        headMesh.mesh = headOptions[headIndex];
-        ApplyColor(new Color(Random.value, Random.value, Random.value));
+            GenerateandApplyColor();
+        }
+        else
+        {
+            headMesh.mesh = headOptions[chosenHeadId];
+            face.sprite = faceSprites[chosenfaceId];
+            ApplyColor(chosenColor);
+        }
 
     }
 
@@ -32,6 +41,16 @@ public class NPCAppearance : MonoBehaviour
     void ApplyColor(Color c)
     {
         foreach (var r in renderers)
-            r.material.color = c;
+            r.material.SetColor("_color", c);
+    }
+
+    public void GenerateandApplyColor()
+    {
+    float h = Random.value;           
+    float s = Random.Range(0.5f, 1f);   
+    float v = Random.Range(0.5f, 0.9f); 
+    Color c = Color.HSVToRGB(h, s, v);  
+    
+    ApplyColor(c);
     }
 }

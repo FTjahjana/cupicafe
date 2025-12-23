@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class Pickupable : MonoBehaviour, IInteractable
 {
     private Rigidbody rb;
     public bool isHeld = false;
     public PlayerInput playerInput; public InputAction dropAction;
+    public bool holdDropRequired;
 
     public bool useCustomTilt; public Vector3 customTilt;
 
@@ -22,7 +24,13 @@ public class Pickupable : MonoBehaviour, IInteractable
     }
 
     void Update(){
-        if (dropAction.WasPressedThisFrame()) Drop();
+
+        dropAction.performed += ctx =>
+        {if (ctx.interaction is HoldInteraction && holdDropRequired)
+            Drop();}; 
+            
+        if (dropAction.WasPressedThisFrame() && !holdDropRequired)
+        Drop();
     }
 
     public virtual void Interact()
@@ -44,7 +52,7 @@ public class Pickupable : MonoBehaviour, IInteractable
         if (rb != null) rb.isKinematic = true;
     }
 
-    public void Drop()
+    public virtual void Drop()
     {
         if (isHeld)
         {

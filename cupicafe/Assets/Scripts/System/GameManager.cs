@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public int SOEindex = 0; public SOE SOE;
+    public int SOEindex = 0; public SOE SOE; public TextOptions textOptions;
 
     public GameObject Player;
     public Transform hand; public bool handIsHolding = false;
