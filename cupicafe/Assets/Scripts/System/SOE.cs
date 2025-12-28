@@ -9,12 +9,14 @@ using System.Collections.Specialized;
 public class SOE : MonoBehaviour
 { // tag this gameobj lol
 
+    int SOEindex; public int currentQuestID; 
     [System.Serializable]
     public class Quest
     { public string questName;  public int numOfQuestParts; public List<QuestTrigger> triggers; }
 
-    [Tooltip("Literally just see the script and edit everything except the Quest names there. It's very straighforward.")]
-    int SOEindex; public List<Quest> Quests; public int currentQuestID;
+    [Header("Assignable Components")]
+    [Tooltip("Literally just see the script and edit everything except the assignable components there. It's very straighforward.")]
+    public List<Quest> Quests; 
 
     public DialogueManager dialogueManager; public Hearts hearts; public NPCQueue npcQueue; public PointerWand pointerWand;
     public SOE_Dialogues SOE_Dialogues; List<DialogueType> dialogues;
@@ -77,9 +79,13 @@ public class SOE : MonoBehaviour
 
     void RunSOE()
     {
-        switch (Quests[currentQuestID].questName)
-        {
-        case "Tutorial - part one?":
+        switch (Quests[currentQuestID].questName){
+        case "Tutorial - Baby Steps":
+        /*Quest 0 triggers:
+            0. Welcmat (collider)
+            1. Door Open (door)
+            2. Floor Step (collider)
+        */
             switch (SOEindex)
             {
                 case 0:
@@ -189,6 +195,11 @@ public class SOE : MonoBehaviour
             break;
 
         case "Who are They?":
+        /*Quest 1 triggers:
+            0. TwoTheNPC (agentMover targetDest)
+            1. Flight Height (collider)
+            2. Flight Pass (Double-sided collider)
+        */
                 switch (SOEindex)
                 {
                     case 0:
@@ -246,20 +257,23 @@ public class SOE : MonoBehaviour
                     case 6:
                         dialogueManager.EndDialogue("notif");
 
-                        NextQuest();
-                        // StartCoroutine(SOE_Dialogues.CallSysDialogue(2, dialogues[13])); // 
-                        // a lot more.. ah
+                        Quests[1].triggers[1].gameObject.SetActive(true); // flight height collider
+                        StartCoroutine(Q1_6_FlightCheck());
                         break;
 
                     case 7:
+                        dialogueManager.EndDialogue("notif");
                         togTtp(twoTheNpc,true); pointerWand.AttachToChara(twoTheNpc);
                         // dialogue end trigger set by Two: ID 4
                         break;
 
                     case 8:
                         togTtp(twoTheNpc,false);
+
+                        // okay imagine a poof to make em closer to you so u can fly past easier
                         StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[16])); //notif
-                        // collider trig, detecting enter -> exit. i believe this isnt there in questtrigger so help me add another option for that.
+                        Quests[1].triggers[2].gameObject.SetActive(true); // flight pass collider
+                        
                         break;
 
                     case 9:
@@ -271,54 +285,80 @@ public class SOE : MonoBehaviour
                         break;
 
                     case 10:
+                        NextQuest();
+                        break;
+                }
+            break;
+
+        case "Take a Shot!":
+        /*Quest 2 triggers:
+            0. TwoTheNPC (agentMover targetDest)
+            1. Flight Height (collider)
+            2. Flight Pass (Double-sided collider)
+        */
+                switch (SOEindex)
+                {
+                    case 0:
+                        CurrentQuestNotif();
+
                         togTtp(oneTheNpc,true); togTtp(twoTheNpc,false);
                         pointerWand.AttachToChara(oneTheNpc);
                         // dialogue end trigger set by One: ID 4
                         break;
 
-                    case 11:
-                        togTtp(oneTheNpc,true); pm.bowModeAllowed = true;
+                    case 1:
+                        togTtp(oneTheNpc,true); pointerWand.AttachToChara(oneTheNpc);
+                        pointerWand.PopupText(true, "Ask For Help?");
+                        pm.bowModeAllowed = true;
                         pm.bowOnAction.Disable(); pm.bowOffAction.Disable();
-                        StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[18])); //notif
+                        StartCoroutine(SOE_Dialogues.CallSysDialogue(4, dialogues[18])); //notif
                         
+                        Debug.Log("<color=yellow>Trigger task: bow on through left press.</color>");
                         miscTriggers[6].gameObject.SetActive(true); // Bow On
                         break;
 
-                    case 12:
+                    case 2:
+                        togTtp(oneTheNpc,false); pointerWand.PopupText(false);
                         dialogueManager.EndDialogue("notif");
 
-                        StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[19])); //notif
-
-                        miscTriggers[8].gameObject.SetActive(true); // wait for notif end trigger
+                        StartCoroutine(SOE_Dialogues.CallSysDialogue(1, dialogues[19])); //dialogue
+                        // do nothing it just runs 
+                        StartCoroutine(DelayAction(1.6f, () => 
+                        {
+                        miscTriggers[8].gameObject.SetActive(true); // wait for dialogue end trigger
+                        }));
                         break;
 
-                    case 13:
-                        dialogueManager.EndDialogue("notif");
+                    case 3:
+                        dialogueManager.EndDialogue("dialogue");
                         
                         StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[20])); //notif
-                        
+                        Debug.Log("<color=yellow>Trigger task: bow on through right press.</color>");
                         miscTriggers[7].gameObject.SetActive(true); // Bow Off
                         break;
 
-                    case 14:
+                    case 4:
+                        NextQuest();
                         break;
 
-                    case 15:
+                    case 5:
                         break;
 
-                    case 16:
+                    case 6:
                         break;
 
-                    case 17:
+                    case 7:
                         break;
 
-                    case 18:
+                    case 8:
+                        break;
+                    
+                    case 9:
+                        StartCoroutine(Q2_9_SysConvo());
                         break;
 
-                    case 19:
-                        break;
-
-                    case 20:
+                    case 10:
+                        //NextQuest();
                         break;
                 }
             break;
@@ -328,17 +368,14 @@ public class SOE : MonoBehaviour
                 {  
                     case 0:
                     CurrentQuestNotif();
-                    
-                    pm.ToggleActions(true); 
-                    pm.bowModeAllowed = true; pm.flyingAllowed = true;
-                    relatedGameObjects[2].GetComponent<Door>().canClick = true;
 
                     StartCoroutine(DelayAction(1f, () => 
                     {
                         hearts.gameObject.SetActive(true);
-                        npcQueue.QueueActive(true);
-
-                        StartCoroutine(hearts.AttackRoundTimer());
+                        npcQueue.StartCoroutine(npcQueue.QueueActive(true));
+                        Nspawn.StartCoroutine(Nspawn.SpawnAllRounds());
+                        StartCoroutine(DelayAction(5f, () => 
+                        {   StartCoroutine(hearts.AttackRoundTimer()); }));
                     }));
 
                         break;
@@ -380,76 +417,127 @@ public class SOE : MonoBehaviour
         action?.Invoke();
     }
 
-
-    public void SkipToAction() //primarily for testing toward Quest 2: Fire Away! but can be used by player
+    bool ResetForSkip(int targetQuestID)
     {
-        if (currentQuestID < 2)
+        if (currentQuestID >= targetQuestID)
         {
-            currentQuestID = 2;
-            Debug.Log("Skipping to Quest 2: "+ Quests[2].questName);
-            SOEindex = 0; GameManager.Instance.SOEindex = 0;
-
-            dialogueManager.NP_Animator.SetBool("S2APopup", false);
-
-            if (dialogueManager.dialoguePanel.activeInHierarchy)dialogueManager.EndDialogue("dialogue");
-            if (dialogueManager.notifPanel.activeInHierarchy) dialogueManager.EndDialogue("notif"); 
-            if (dialogueManager.inputPanel.activeInHierarchy) dialogueManager.EndDialogue("input"); 
-            
-            RunSOE();
+            Debug.LogError("NOT ALLOWED: Trying to skip to previous/current quest.");
+            return false;
         }
-    }
+        Debug.Log($"Skipping to Quest {targetQuestID}: "+ Quests[targetQuestID].questName);
+        currentQuestID = targetQuestID;
+        SOEindex = 0; GameManager.Instance.SOEindex = 0;
 
+        if (dialogueManager.dialoguePanel.activeInHierarchy)
+            dialogueManager.EndDialogue("dialogue");
+        if (dialogueManager.notifPanel.activeInHierarchy)
+            dialogueManager.EndDialogue("notif");
+        if (dialogueManager.inputPanel.activeInHierarchy)
+            dialogueManager.EndDialogue("input");
+
+        foreach (var t in miscTriggers)
+        {
+            t.gameObject.SetActive(false);
+            t.enabled = true;
+        }
+        pointerWand.Detach();
+
+        if (!pm.cursorLocked) pm.cursorToggle(true);
+        pm.ToggleActions(true);
+
+        relatedGameObjects[2].GetComponent<Door>().canClick = true;
+        
+        return true;
+    }
+    
+    [ContextMenu("SKIP / Quest 1")]
     public void SkipToQuest1()
-{
-    if (currentQuestID >= 1) return;
-
-    currentQuestID = 1;
-    SOEindex = 0;
-    GameManager.Instance.SOEindex = 0;
-
-    Debug.Log("Skipping to Quest 1: " + Quests[1].questName);
-
-    if (dialogueManager.dialoguePanel.activeInHierarchy)
-        dialogueManager.EndDialogue("dialogue");
-    if (dialogueManager.notifPanel.activeInHierarchy)
-        dialogueManager.EndDialogue("notif");
-    if (dialogueManager.inputPanel.activeInHierarchy)
-        dialogueManager.EndDialogue("input");
-
-    foreach (var t in miscTriggers)
     {
-        t.gameObject.SetActive(false);
-        t.enabled = true;
+        if (!ResetForSkip(1)) return;
+
+        pm.bowModeAllowed = false; pm.flyingAllowed = false;
+
+        pm.characterController.enabled = false;
+        GameManager.Instance.Player.transform.position = npcQueue.CustomerQueue[0].slotLoc.position;
+        pm.characterController.enabled = true;
+
+        oneTheNpc = Nspawn.SpawnPopupNPC("One", pm.behindCounterPos, pm.behindCounterRotY);
+        var dc = oneTheNpc.GetComponent<DialogueChain>();
+        dc.ResetProgress(); dc.currentIndex = 3; togTtp(oneTheNpc,false); 
+        dc.triggerOnEndCounter = 1;
+        dc.DialogueEndTrigger = miscTriggers[1].gameObject;
+
+        RunSOE();
     }
 
-    pm.ToggleActions(true);
-    pm.cursorLocked = true;
-    pm.bowModeAllowed = true;
-    pm.flyingAllowed = true;
+    [ContextMenu("SKIP / Quest 2")]
+    public void SkipToQuest2()
+    {
+        if (!ResetForSkip(2)) return;
 
-    pm.characterController.enabled = false;
-    GameManager.Instance.Player.transform.position = npcQueue.CustomerQueue[0].slotLoc.position;
-    pm.characterController.enabled = true;
+        pm.bowModeAllowed = false; pm.flyingAllowed = true;
 
-    relatedGameObjects[2].GetComponent<Door>().canClick = true;
-    pointerWand.Detach();
+        pm.characterController.enabled = false;
+        GameManager.Instance.Player.transform.position = npcQueue.CustomerQueue[0].slotLoc.position;
+        pm.characterController.enabled = true;
 
-    oneTheNpc = Nspawn.SpawnPopupNPC("One", pm.behindCounterPos, pm.behindCounterRotY);
-    var dc = oneTheNpc.GetComponent<DialogueChain>();
-    dc.ResetProgress(); dc.currentIndex = 3;
-    dc.DialogueEndTrigger = miscTriggers[1].gameObject;
+        // One
+        oneTheNpc = Nspawn.SpawnPopupNPC("One", pm.behindCounterPos, pm.behindCounterRotY);
+        var dc1 = oneTheNpc.GetComponent<DialogueChain>();
+        dc1.ResetProgress();  dc1.currentIndex = 4;  togTtp(oneTheNpc,false); 
+        dc1.triggerOnEndCounter = 2;
+        dc1.DialogueEndTrigger = miscTriggers[1].gameObject;
 
-    RunSOE();
-}
+        // Two
+        twoTheNpc = Nspawn.SpawnPopupNPC("Two", relatedGameObjects[4].transform.position, relatedGameObjects[4].transform.rotation.eulerAngles.y);
+        var dc2 = twoTheNpc.GetComponent<DialogueChain>();
+        dc2.ResetProgress();  dc2.currentIndex = 6;  togTtp(twoTheNpc,false);
+        dc2.triggerOnEndCounter = 4;
+        dc2.DialogueEndTrigger = miscTriggers[1].gameObject;
 
+        Quests[1].triggers[0] = twoTheNpc.GetComponent<QuestTrigger>();
+        Quests[1].triggers[0].targetDest = relatedGameObjects[4].transform; 
+
+        RunSOE();
+    }
+
+    [ContextMenu("SKIP / Quest 3")]
+    public void SkipToAction() //primarily for testing toward Quest 3: Fire Away! but can be used by player
+    {
+        if (!ResetForSkip(3)) return;
+
+        pm.bowModeAllowed = true; pm.flyingAllowed = true;
+
+        pm.characterController.enabled = false;
+        GameManager.Instance.Player.transform.position = npcQueue.CustomerQueue[0].slotLoc.position;
+        pm.characterController.enabled = true;
+        
+        // One
+        oneTheNpc = Nspawn.SpawnPopupNPC("One", pm.behindCounterPos, pm.behindCounterRotY);
+        var dc1 = oneTheNpc.GetComponent<DialogueChain>();
+        dc1.ResetProgress();  dc1.currentIndex = 4;  togTtp(oneTheNpc,false); 
+        dc1.triggerOnEndCounter = 2;
+        dc1.DialogueEndTrigger = miscTriggers[1].gameObject;
+
+        // Two
+        twoTheNpc = Nspawn.SpawnPopupNPC( "Two", relatedGameObjects[4].transform.position, relatedGameObjects[4].transform.rotation.eulerAngles.y);
+        var dc2 = twoTheNpc.GetComponent<DialogueChain>();
+        dc2.ResetProgress();  dc2.currentIndex = 6;  togTtp(twoTheNpc,false);
+        dc2.triggerOnEndCounter = 4;
+        dc2.DialogueEndTrigger = miscTriggers[1].gameObject;
+
+        dialogueManager.NP_Animator.SetBool("S2APopup", false);
+
+        RunSOE();
+    }
 
     void CurrentQuestNotif()
     {
-    dialogueManager.qtText.text = "Quest " + currentQuestID + ":";
-    var n = new Notif_Dialogue { notifText = Quests[currentQuestID].questName };
+        dialogueManager.qtText.text = "Quest " + currentQuestID + ":";
+        var n = new Notif_Dialogue { notifText = Quests[currentQuestID].questName };
 
-    dialogueManager.StartDialogue(n, 2.5f);
-    dialogueManager.NP_Animator.SetBool("NewQuest", true);
+        dialogueManager.StartDialogue(n, 2.5f);
+        dialogueManager.NP_Animator.SetBool("NewQuest", true);
     }
 
     void togTtp(GameObject chara, bool thing)
@@ -457,4 +545,86 @@ public class SOE : MonoBehaviour
         chara.GetComponent<NPCInteract>().talktoPlayer = thing;
     }
     
+    IEnumerator Q1_6_FlightCheck()
+    {
+        bool played13 = false;
+        float onGroundTimer = 0f;
+
+        // ENTRY
+        if (pm.isFlying)
+        {
+            yield return StartCoroutine(SOE_Dialogues.CallSysDialogue(1, dialogues[13]));
+            played13 = true;
+        }
+        else
+        {
+            while (dialogueManager.notifPanel.activeSelf)
+                yield return null;
+
+            yield return StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[14]));
+        }
+
+        // MAIN LOOP
+        while (SOEindex == 6)
+        {
+            if (!pm.isFlying)
+            { onGroundTimer += Time.deltaTime;
+
+                if (onGroundTimer >= 5f)
+                { if (!dialogueManager.notifPanel.activeSelf)
+                    { yield return StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[17])); }
+                    onGroundTimer = 0f;
+                }
+            }
+            else
+            { onGroundTimer = 0f;
+
+                if (!played13)
+                { if (dialogueManager.notifPanel.activeSelf) dialogueManager.EndDialogue("notif");
+
+                    yield return StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[13]));
+                    played13 = true;
+                }
+                else
+                { if (!dialogueManager.notifPanel.activeSelf)
+                    { yield return StartCoroutine(SOE_Dialogues.CallSysDialogue(0, dialogues[15])); }
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    IEnumerator Q2_9_SysConvo()
+    {
+        // n
+        yield return SOE_Dialogues.CallSysDialogue(0, dialogues[24]);
+        yield return new WaitForSeconds(1f);
+        dialogueManager.EndDialogue("notif");
+
+        // d
+        yield return SOE_Dialogues.CallSysDialogue(0, dialogues[25]);
+        yield return new WaitForSeconds(1f);
+        dialogueManager.EndDialogue("dialogue");
+
+        // n
+        yield return SOE_Dialogues.CallSysDialogue(0, dialogues[25]);
+        miscTriggers[8].gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(1f);
+        dialogueManager.EndDialogue("notif");
+    }
+
+    #if UNITY_EDITOR
+    void OnGUI()
+    {
+        GUIStyle style = new GUIStyle(GUI.skin.label);
+        style.fontSize = 48; style.alignment = TextAnchor.UpperCenter;
+        style.normal.textColor = Color.cyan;
+
+        GUI.Label(new Rect(0, 20, Screen.width, 80), $"SOE: ({currentQuestID}, {SOEindex})", style
+        );
+    }
+    #endif
+
 }

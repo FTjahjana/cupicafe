@@ -47,9 +47,15 @@ public class CharAnimations : MonoBehaviour
         }
     }
 
-    public void CallAnim(string name){
-        if (name == "Bye"){ anim.SetTrigger("Bye"); return;}
-        anim.Play(name);}
+    public void CallAnimByTrigger(string trigger)
+    {
+        if (!anim.isActiveAndEnabled)anim.enabled = true;
+        if (trigger == "Bye") {Destroy(gameObject); return;}
+
+        Debug.Log($"Anim trigger fired: {trigger}");
+        anim.SetTrigger(trigger);
+        
+    }
 
     // Anim Event helper mehtods to call WACO (WingAnimCutsceneOverride)
     public void WACOLO(){Debug.Log("WACOLO");WingAnimCutsceneOverride(1, 0);} // left only open
@@ -96,10 +102,11 @@ public class CharAnimations : MonoBehaviour
         wingLanim.Update(0f); wingRanim.Update(0f); 
         }
 
-    public void Bye(){Destroy(gameObject);}
-
     public void Highlight(bool on)
     {
         anim.SetBool("IsHighlighted", on);
     }
+
+    public void AnimDisable(){anim.enabled = false;}
+
 }

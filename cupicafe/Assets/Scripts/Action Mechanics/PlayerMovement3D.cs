@@ -40,7 +40,7 @@ public class PlayerMovement3D : MonoBehaviour
 
     [Header("Fly")]
     public bool flyingAllowed = true, isFlying; public CharAnimations charAnimations;
-    public event Action<bool> OnFlyingToggled;
+    public event Action<bool> OnFlyingToggled; public bool G_Effective = true;
 
     [Header("Bow Mode")]
     public bool bowModeAllowed = true, bowModeOn; public InputAction bowOffAction, bowOnAction;
@@ -138,16 +138,14 @@ public class PlayerMovement3D : MonoBehaviour
         if (isFlying)
         {
             float verticalInput = verticalMoveAction.ReadValue<float>();
-            movingDirection.y = verticalInput * moveSpeed;
-            //float vertical = verticalInput * moveSpeed;
-            //Vector3 verticalMovement = Vector3.up * vertical;
-            Vector3 verticalMovement = Vector3.up * movingDirection.y;
+            movingDirection.y += verticalInput * moveSpeed * Time.deltaTime;
+            movingDirection.y = Mathf.Clamp(movingDirection.y, -moveSpeed, moveSpeed);
 
-            Vector3 move = horizontalMovement + verticalMovement;
+            Vector3 move = horizontalMovement + Vector3.up * movingDirection.y;
             characterController.Move(move * Time.deltaTime);
         } else {
             //move the character
-            characterController.SimpleMove(horizontalMovement);
+            characterController.Move(horizontalMovement * Time.deltaTime);
         }
     }
 
@@ -223,7 +221,7 @@ public class PlayerMovement3D : MonoBehaviour
             {
                 Debug.Log("flying initiated");
                 isFlying = true; 
-                movingDirection.y = jumpSpeed*2;
+                movingDirection.y += jumpSpeed*2;
             }
 
             OnFlyingToggled?.Invoke(isFlying);
@@ -268,7 +266,7 @@ public class PlayerMovement3D : MonoBehaviour
         }
         else
         {
-            movingDirection.y -= (gravity * 0.05f) * Time.deltaTime;
+            if (G_Effective) movingDirection.y -= (gravity * 0.05f) * Time.deltaTime;
         }
 
         characterController.Move(movingDirection * Time.deltaTime);

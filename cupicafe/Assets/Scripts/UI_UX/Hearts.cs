@@ -9,6 +9,7 @@ public class Hearts : MonoBehaviour
     [Header("UI & Scoring")]
     public TMP_Text scoreText;
     public int score = 0;
+    public TMP_Text timerText; [SerializeField]private bool perSecDebugOn;
     private bool areTargetsPaired = false;
     public NPCIconCamera npcIconCamera;
 
@@ -25,13 +26,18 @@ public class Hearts : MonoBehaviour
     public Animator heart2Anim;
 
     [Header("Attack Rounds")]
-    [SerializeField]private float timer = 0f, roundLength = 180f;
-    bool RoundOn;
+    [SerializeField]private float timer = 0f, 
+    roundLength = 180f;
+    private float d5er=0; 
+    public bool RoundOn;
 
     private List<GameObject> pastTargets; 
 
+    public NPCQueue npcQueue;
+
     private void Start()
     {
+        pastTargets = new List<GameObject>();
         UpdateScoreDisplay();
         ClearTargets();
     }
@@ -51,7 +57,6 @@ public class Hearts : MonoBehaviour
     
     public void Shoot(GameObject shotTarget)
     {
-        pastTargets.Add(shotTarget);
         if (heart1target == null)
         {
             heart1target = shotTarget;
@@ -76,8 +81,6 @@ public class Hearts : MonoBehaviour
             StartCoroutine(HandleMatchupSequence());
         }
         
-
-        // once both shot, they go out into the void.
     }
     
     public void StartMatchupTimer()
@@ -101,6 +104,12 @@ public class Hearts : MonoBehaviour
     private IEnumerator HandleMatchupSequence()
     {
         areTargetsPaired = true;
+
+        if (RoundOn)
+        {
+            npcQueue.TryAssignPair(heart1target, heart2target);
+            pastTargets.Add(heart1target); pastTargets.Add(heart2target);
+        }
         
         yield return new WaitForSeconds(0.5f); 
         heart1Anim.SetTrigger("Score"); heart2Anim.SetTrigger("Score");
@@ -119,10 +128,18 @@ public class Hearts : MonoBehaviour
 
         while (timer > 0)
         {
-            timer -= 3f;
-            Debug.Log("Time left: " + Mathf.Ceil(timer));
-            
-            yield return new WaitForSeconds(3f);
+            timer -= 1f;
+            d5er += 1f;
+
+            timerText.text = $"{timer}";
+            if (perSecDebugOn) 
+            {Debug.Log("Time left: " + Mathf.Ceil(timer));}
+            else if (d5er >= 5f)
+            {
+                Debug.Log("Time left: " + Mathf.Ceil(timer));
+                d5er = 0f;
+            }
+            yield return new WaitForSeconds(1f);
         }
 
         Debug.Log("Time's up!");
@@ -132,4 +149,6 @@ public class Hearts : MonoBehaviour
 
         // reset score? or mabe do something before that idk
     }
+
+    public void RemoveFromPastTargets(GameObject me){pastTargets.Remove(me);}
 }

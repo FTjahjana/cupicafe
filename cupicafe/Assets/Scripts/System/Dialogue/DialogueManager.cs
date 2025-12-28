@@ -33,8 +33,8 @@ public class DialogueManager : MonoBehaviour
     public bool dialogueFinished = false; 
     public event Action<string> DialogueEnded; 
     public event Action<string> DialogueStarted; 
-    public event Action<DialogueChain, string> DialogueEndedWithSender; 
-    public event Action<DialogueChain, string> DialogueStartedWithSender;
+    //public event Action<DialogueChain, string> DialogueEndedWithSender; 
+    //public event Action<DialogueChain, string> DialogueStartedWithSender;
     public bool triggerSet = false; public bool nameChangeDue; 
     
     private Queue<Dialogue> dialogueChainQueue; 

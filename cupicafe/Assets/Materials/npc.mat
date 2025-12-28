@@ -52,6 +52,9 @@ Material:
     m_Ints: []
     m_Floats:
     - _Alpha: 1
+    - _Em: 0.5
+    - _Em2: 0.5
+    - _Em_Spread: 0.25
     - _Glow: 0
     - _Glow_Alpha: 1.3
     - _Glow_Spread: 2.18
@@ -60,6 +63,8 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _Base_Color: {r: 1, g: 1, b: 1, a: 0}
+    - _E1: {r: 1, g: 1, b: 1, a: 1}
+    - _E2: {r: 0, g: 0, b: 0, a: 1}
     - _Glow_Color: {r: 0, g: 1, b: 0.9137156, a: 0}
     - _color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

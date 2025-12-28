@@ -152,6 +152,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -6376578048039917146, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
+      objectReference: {fileID: 0}
+    - target: {fileID: -6376578048039917146, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ddb425288d523814d8dd4ec3e9a45f76, type: 2}
@@ -190,6 +194,10 @@ PrefabInstance:
     - target: {fileID: -4686679488746399617, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 29.436
+      objectReference: {fileID: 0}
+    - target: {fileID: -4368477364483681319, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
       objectReference: {fileID: 0}
     - target: {fileID: -4368477364483681319, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -272,9 +280,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -674516536986755565, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
+      objectReference: {fileID: 0}
+    - target: {fileID: -674516536986755565, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ddb425288d523814d8dd4ec3e9a45f76, type: 2}
+    - target: {fileID: -216825685569736189, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
+      objectReference: {fileID: 0}
     - target: {fileID: -216825685569736189, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -304,6 +320,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 7cebb65645d269e45ab44f87170cb4c4, type: 2}
     - target: {fileID: 6540705931912203042, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
+      objectReference: {fileID: 0}
+    - target: {fileID: 6540705931912203042, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: ddb425288d523814d8dd4ec3e9a45f76, type: 2}
@@ -311,6 +331,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 7cebb65645d269e45ab44f87170cb4c4, type: 2}
+    - target: {fileID: 7197654395940598452, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 257
+      objectReference: {fileID: 0}
     - target: {fileID: 7197654395940598452, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -349,6 +373,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8411785124821832801}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1137818848017664687}
   m_SourcePrefab: {fileID: 100100000, guid: 580f631aad187644bb8150a6b192ccdf, type: 3}
 --- !u!23 &889427801652602915 stripped
 MeshRenderer:
@@ -431,14 +458,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NPC_ID: 0
   currentDestination: {fileID: 0}
-  offsetDistance: 2
+  offsetDistance: 1.5
+  Customer: 1
   waitOutsideSpot: {fileID: 0}
   welcmatCol: {fileID: 0}
   agentSpeed: 2
   agent: {fileID: 8445950590053149729}
+  affectRotation: 1
   npcQueue: {fileID: 0}
   arrivedAtQueue: 0
   isWaitingOutside: 0
+  walkingtoPS: 0
+  reachedPS: 0
+  PS_AorB: 0
+  assignedPairSlot:
+    slotA: {fileID: 0}
+    slotB: {fileID: 0}
+    occupierA: {fileID: 0}
+    occupierB: {fileID: 0}
+  anims: {fileID: 0}
 --- !u!114 &5000417503892350616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,3 +609,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1137818848017664687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7166841672733583302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff1ed428da6a22429dc52b1fa25c11f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 8411785124821832801}
+  dialogueChain: {fileID: 0}
+  spawner: {fileID: 0}
+  hearts: {fileID: 0}
+  shootable: 1

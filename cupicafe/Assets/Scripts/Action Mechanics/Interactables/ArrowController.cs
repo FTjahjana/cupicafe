@@ -7,6 +7,7 @@ public class ArrowController : MonoBehaviour
     [SerializeField] private float airResistance = 1.8f;
     [SerializeField] private float length = 0.7f;
     [SerializeField] private float scalingFactor = 0.001f;
+    [SerializeField] private bool decayOn = true;
 
     private Rigidbody rb;
     private float dragOffset;
@@ -28,6 +29,11 @@ public class ArrowController : MonoBehaviour
 
         mapRadius = GameManager.Instance.mapRadius;
         mapCenter = GameManager.Instance.mapCenter;
+    }
+
+    void Start()
+    {
+        if (decayOn) Destroy(gameObject, 3f);
     }
 
     void FixedUpdate()
@@ -69,7 +75,8 @@ public class ArrowController : MonoBehaviour
 
         if (collisionData.collider.CompareTag("NPC"))
         {
-            GameObject shot = collisionData.gameObject;
+            if (hearts.RoundOn)
+            {GameObject shot = collisionData.gameObject;
             bool npcshootable = shot.GetComponent<NPCInteract>().shootable;
 
             if (hearts.CanShoot(shot)&& npcshootable)
@@ -81,6 +88,7 @@ public class ArrowController : MonoBehaviour
             {
                 Debug.Log($"{shot.name}: Unable to Shoot.");
                 return;
+            }
             }
         }
 

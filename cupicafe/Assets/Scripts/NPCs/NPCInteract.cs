@@ -7,6 +7,9 @@ public class NPCInteract : MonoBehaviour, IInteractable
 
     public Animator anim;
     public DialogueChain dialogueChain;
+    
+    public NPCSpawner spawner;
+    public Hearts hearts;
     private bool _talktoPlayer;
     public bool talktoPlayer
     {
@@ -20,12 +23,14 @@ public class NPCInteract : MonoBehaviour, IInteractable
             {
                 // Subscribe to DialogueManager events
                 DialogueManager.Instance.DialogueEnded += dialogueChain.TryAdvanceChain;
+                DialogueManager.Instance.DialogueEnded += dialogueChain.OnDialogueEnded;
                 DialogueManager.Instance.DialogueStarted += dialogueChain.OnDialogueStarted;
             }
             else
             {
                 // Unsubscribe when player shouldn't talk to this NPC
                 DialogueManager.Instance.DialogueEnded -= dialogueChain.TryAdvanceChain;
+                DialogueManager.Instance.DialogueEnded -= dialogueChain.OnDialogueEnded;
                 DialogueManager.Instance.DialogueStarted -= dialogueChain.OnDialogueStarted;
             }
         }
@@ -51,6 +56,9 @@ public class NPCInteract : MonoBehaviour, IInteractable
             DialogueManager.Instance.DialogueEnded -= dialogueChain.TryAdvanceChain;
             DialogueManager.Instance.DialogueStarted -= dialogueChain.OnDialogueStarted;
         }
+        
+        if (spawner!=null) spawner.numberOfNPCs -= 1;
+        hearts.RemoveFromPastTargets(this.gameObject);
     }
 
 }

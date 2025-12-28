@@ -4,12 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class DialogueChain : MonoBehaviour
-{
+{   
+    [SerializeField]public int currentIndex = 0;
+    [SerializeField]public int triggerOnEndCounter = 0;
 
     public Dialogue[] dialogues; 
     public List<AutoChainSegment> autoChainSegments;
 
-    public List<int> triggerOnEnd; private int triggerOnEndCounter = 0;
+    public List<int> triggerOnEnd; 
     public GameObject DialogueEndTrigger; 
     
     [System.Serializable]
@@ -18,7 +20,7 @@ public class DialogueChain : MonoBehaviour
         public int startIndex; public int endIndex; 
     }
 
-    [SerializeField]public int currentIndex = 0;
+    
 
     public bool allDialoguesFinished; public bool currentlyChaining;
 
@@ -43,6 +45,7 @@ public class DialogueChain : MonoBehaviour
             //DialogueManager.Instance.DialogueEndedWithSender += TryAdvanceChain;
             //DialogueManager.Instance.DialogueStartedWithSender += OnDialogueStarted;
             DialogueManager.Instance.DialogueEnded += TryAdvanceChain;
+            DialogueManager.Instance.DialogueEnded += OnDialogueEnded;
             DialogueManager.Instance.DialogueStarted += OnDialogueStarted;
         }
     }
@@ -58,6 +61,7 @@ public class DialogueChain : MonoBehaviour
             //DialogueManager.Instance.DialogueEndedWithSender -= TryAdvanceChain;
             //DialogueManager.Instance.DialogueStartedWithSender -= OnDialogueStarted;
             DialogueManager.Instance.DialogueEnded -= TryAdvanceChain;
+            DialogueManager.Instance.DialogueEnded -= OnDialogueEnded;
             DialogueManager.Instance.DialogueStarted -= OnDialogueStarted;
         }
     }
@@ -100,7 +104,7 @@ public class DialogueChain : MonoBehaviour
         string chainingStatus = currentlyChaining ? "Currently chaining" : "Currently not chaining";
         string typeInfo = startingChain  ? $"Chain (1/{segment.endIndex - segment.startIndex + 1})": "Single";
 
-    Debug.Log($"[{gameObject.name}]: {typeInfo} | DCindex: {currentIndex-1} | {chainingStatus}\n" +
+        Debug.Log($"[{gameObject.name}]: {typeInfo} | DCindex: {currentIndex-1} | {chainingStatus}\n" +
               $"{DialogueManager.Instance.CurrentSentenceText}");
 
         /*if (triggerOnEndCounter < triggerOnEnd.Count &&
@@ -121,6 +125,8 @@ public class DialogueChain : MonoBehaviour
         if (!DialogueManager.Instance.isChainRunning && currentlyChaining)
         {
             currentlyChaining = false;
+
+            if (CursorUnlockOnStart && !pm.cursorLocked)pm.cursorToggle(true);
         }
     }
 
@@ -131,14 +137,25 @@ public class DialogueChain : MonoBehaviour
 
         Debug.Log($"{gameObject.name}: Dialogue started at DCindex {currentIndex - 1}");
 
-        if (!currentlyChaining && 
-        currentIndex-1 == triggerOnEnd[triggerOnEndCounter])
+        if (currentlyChaining) return;
+        if (triggerOnEndCounter < triggerOnEnd.Count &&
+            triggerOnEnd[triggerOnEndCounter] == currentIndex)
         {
             DialogueEndTrigger.SetActive(true);
             Debug.Log($"Enabled trigger: {DialogueEndTrigger.name}");
             triggerOnEndCounter++;
         }
     }
+
+    public void OnDialogueEnded(string diaType)
+    {
+        if (diaType != "dialogue") return;
+        if (currentlyChaining) return;
+
+        Debug.Log($"{gameObject.name}: OnDialogueEnded called.");
+        
+    }
+
 
     private AutoChainSegment FindChainSegment(int index)
     {

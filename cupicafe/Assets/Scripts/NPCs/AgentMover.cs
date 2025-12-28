@@ -23,10 +23,19 @@ public class AgentMover : MonoBehaviour
     public NavMeshAgent agent;
     public bool affectRotation = true;
 
+    [Header("Queue Stuff")]
     public NPCQueue npcQueue;
 
     public bool arrivedAtQueue = false;
     public bool isWaitingOutside = false;
+    [Space(5)]
+    public bool walkingtoPS, reachedPS; [HideInInspector] public bool PS_AorB;
+    public NPCQueue.PairSlot assignedPairSlot;
+    [Space(5)]
+    public bool reachedRS, walkingToRS;
+    public NPCQueue.RandomSlot assignedRandomSlot;
+    [Space(5)]
+    public CharAnimations anims;
 
     void Start()
     {
@@ -34,6 +43,8 @@ public class AgentMover : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         if (agent == null) 
         {Debug.LogError("navmeshagent missing");enabled = false; return;}
+
+        anims = GetComponent<CharAnimations>();
 
         /*if (waypoints == null || waypoints.Count == 0)
         { Debug.LogError("waypoints empty");  return;}
@@ -64,6 +75,26 @@ public class AgentMover : MonoBehaviour
                 { npcQueue.UpdateQueue(); arrivedAtQueue = true; 
                 return;}
             }}
+
+            if (walkingToRS && !reachedRS)
+            {
+                reachedRS = true;
+                walkingToRS = false;
+            }
+
+            if (walkingtoPS && !reachedPS)
+            {
+                reachedPS = true; walkingtoPS = false;
+
+                agent.enabled = false; 
+
+                Transform slotT = PS_AorB ? assignedPairSlot.slotB : assignedPairSlot.slotA;
+
+                transform.SetParent(slotT);
+                transform.localPosition = Vector3.zero; transform.localRotation = Quaternion.identity;
+
+                anims.CallAnimByTrigger(PS_AorB ? "SitB" : "SitA");
+            }
         }
 
         if (affectRotation)
@@ -74,7 +105,7 @@ public class AgentMover : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collider other)
+     void OnTriggerEnter(Collider other)
     {
         if (!Customer) return;
         if (other == welcmatCol && currentDestination == waitOutsideSpot && !isWaitingOutside)
@@ -88,7 +119,7 @@ public class AgentMover : MonoBehaviour
         }
     }
 
-    void OnDrawGizmosSelected()
+    void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, offsetDistance);

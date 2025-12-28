@@ -20,8 +20,11 @@ public class QuestTrigger : MonoBehaviour
 
     [SerializeField] private bool waitingForDialogueEnd; // P.S. this has NOTHING to do with the DialogueChain version
     [SerializeField] private bool waitingForNotifEnd; [SerializeField] private bool waitingForInputEnd;
+    
     [SerializeField] private bool anyKeyDetect;
-    [SerializeField] private bool colliderDetect, autoIsTriggerToggle;
+
+    [SerializeField] private bool colliderDetect, autoIsTriggerToggle, passColliderDetect;
+            private bool playerEntered = false;
     [SerializeField] public Transform targetDest; [SerializeField] private AgentMover agentMover;
     [SerializeField] private bool resetAgent; [SerializeField] private float offsetDistance = .5f;
 
@@ -56,6 +59,8 @@ public class QuestTrigger : MonoBehaviour
         if (waitingForDialogueEnd || waitingForNotifEnd || waitingForInputEnd) DialogueManager.Instance.DialogueEnded -= ReceivedDialogueEnded;
 
         if (colliderDetect && autoIsTriggerToggle) { col.isTrigger = false;}
+        
+        if (passColliderDetect) playerEntered = false;
 
         if (action != null) action.action.performed -= OnActionPerformed;
 
@@ -103,9 +108,26 @@ public class QuestTrigger : MonoBehaviour
     // For collider-based Triggers
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && colliderDetect) //player collision
-        {Debug.Log("I hit player");
+        if (!other.CompareTag("Player")) return; //player collision
+
+        if (colliderDetect) 
+        {Debug.Log("colDetect: Player ENTER");
             TriggerCondition();}
+
+        if (passColliderDetect) 
+        {Debug.Log("passColDetect: Player ENTER");
+            playerEntered = true;}
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        if (passColliderDetect && playerEntered)
+        {
+            Debug.Log("passColDetect: Player EXIT");
+            TriggerCondition();
+        }
     }
 
     // For door trigger, check Door.cs

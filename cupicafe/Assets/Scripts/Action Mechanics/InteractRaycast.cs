@@ -15,6 +15,8 @@ public class InteractRaycast : MonoBehaviour
 
     public Animator handAnim;
 
+    float logTimer = 0f;
+
     private void Awake()
     {
         interactAction = playerInput.actions.FindAction("Interact");
@@ -48,12 +50,15 @@ public class InteractRaycast : MonoBehaviour
 
         if (debugAction.WasPressedThisFrame())
         {
-            Debug.Log("interactRay.origin: " + interactRay.origin + "interactRay.direction: " + interactRay.direction);
-            Debug.Log("transform.position: " + transform.position + "transform.rotation" + transform.rotation);
-
             raydebugLogOn = !raydebugLogOn;
             Debug.Log("Ray logs toggled!");
         }
 
-    }
+        logTimer += Time.deltaTime;
+        if (logTimer >= 1f)
+    {   if (raydebugLogOn)
+        {   Debug.Log("interactRay.origin: " + interactRay.origin + "interactRay.direction: " + interactRay.direction);
+            Debug.Log("transform.position: " + transform.position + "transform.rotation" + transform.rotation);}
+        logTimer = 0f;
+    }}
 }

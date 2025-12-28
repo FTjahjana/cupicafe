@@ -30,6 +30,7 @@ public class NPCSpawner : MonoBehaviour
     }
     
     public List<spawnRound> spawnRounds;
+    public Hearts hearts;
 
     void Start()
     {
@@ -45,8 +46,12 @@ public class NPCSpawner : MonoBehaviour
 
     void SpawnNPC()
     {
-        if (numberOfNPCs > 7) {Debug.LogWarning("Too many NPCs are in the scene right now, try spawn again late.r"); return;}
-        if (npcQueue.waitingAgents.Count > 3) {Debug.LogWarning("Too many NPCs waiting outside door. Let them in before trying to spawn more."); return;}
+        if (numberOfNPCs > 14) 
+        {Debug.LogWarning("Too many NPCs are in the scene right now, try spawn again later."); 
+        return;}
+        if (npcQueue.waitingAgents.Count > 3) 
+        {Debug.LogWarning("Too many NPCs waiting outside door. Let them in before trying to spawn more."); 
+        return;}
         Vector3 randomPoint = transform.position + Random.insideUnitSphere //just found this.. cool
         * spawnRadius;
         randomPoint.y = transform.position.y;
@@ -58,7 +63,10 @@ public class NPCSpawner : MonoBehaviour
             Vector3 spawnPosition = hit.position;
 
             GameObject newNPC = Instantiate(npcPrefab, spawnPosition, Quaternion.identity);
-
+            
+            var N_int = newNPC.GetComponent<NPCInteract>();
+            if (N_int != null){ N_int.spawner = this; N_int.hearts = hearts; }
+            
             AgentMover agentMover = newNPC.GetComponent<AgentMover>();
             if (agentMover != null /*&& waypoints.Count > 0*/)
             {
@@ -77,6 +85,7 @@ public class NPCSpawner : MonoBehaviour
             }
 
             numberOfNPCs++;
+            
         }
         else
         {
@@ -90,6 +99,8 @@ public class NPCSpawner : MonoBehaviour
         
         newNPC.GetComponent<NavMeshAgent>().enabled = false;
         newNPC.GetComponent<AgentMover>().enabled = false;
+        newNPC.GetComponent<NPCInteract>().spawner = this;
+        newNPC.GetComponent<NPCInteract>().hearts = hearts;
 
         Rigidbody rb = newNPC.GetComponent<Rigidbody>(); rb.useGravity = true; rb.isKinematic = false;
     }
@@ -101,6 +112,7 @@ public class NPCSpawner : MonoBehaviour
             GameObject newNPC = Instantiate(v, spawnPointPos, Quaternion.Euler(0, spawnPointYRot, 0));
             newNPC.GetComponent<NavMeshAgent>().enabled = false;
             newNPC.GetComponent<AgentMover>().enabled = false;
+            newNPC.GetComponent<NPCInteract>().hearts = hearts;
 
             Rigidbody rb = newNPC.GetComponent<Rigidbody>(); rb.useGravity = true; rb.isKinematic = false;
 
@@ -120,7 +132,7 @@ public class NPCSpawner : MonoBehaviour
         }
     }
 
-    IEnumerator SpawnAllRounds()
+    public IEnumerator SpawnAllRounds()
     {
         yield return new WaitForSeconds(startDelay);
 

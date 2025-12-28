@@ -30,59 +30,62 @@ public class NPCQueue : MonoBehaviour
         public bool IsFree => occupierA == null && occupierB == null;
     }
 
+    [System.Serializable]
+    public struct DecayRange
+    {
+        public float min;public float max;
+        public float Random => UnityEngine.Random.Range(min, max);
+    }
+
+    public NPCSpawner spawner;
     public List<GameObject> waitingAgents;
     [SerializeField] public List<CustomerQueueSlot> CustomerQueue; //slots
     public Door door;
     [SerializeField] public List<RandomSlot> randomSlots;
     [SerializeField] public List<PairSlot> pairSlots;
 
+    [Header("Decay / Exit Rates")]
+    public DecayRange Q2RS_Delay;   
+    public DecayRange RS_Destroy;    
+    public DecayRange PS_Destroy;   
+
     [ContextMenu("TEST / Dequeue First")]
     void Test_DequeueFirst()
     {
-        if (CustomerQueue.Count == 0) return;
-        if (CustomerQueue[0].occupier == null) return;
-
         DequeueCustomer(CustomerQueue[0].occupier);
     }
 
-    [ContextMenu("TEST / First (CQ) → RS")]
-    void Test_FirstToRandom()
+    [ContextMenu("TEST / 0(CQ) → RS")]
+    void FirstInQueueToRandom()
     {
-        if (CustomerQueue[0].occupier == null) return;
-
-        var c = CustomerQueue[0].occupier; DequeueCustomer(c);
-
-        var slot = GetRS(); if (slot == null) return;
-
-        slot.occupier = c;
-        SetObstacle(slot.slotLoc, true); //new need test
-
-        var m = c.GetComponent<AgentMover>();
-        m.currentDestination = slot.slotLoc;
-        m.agent.destination = slot.slotLoc.position;
+        Q2RS(CustomerQueue[0].occupier);
     }
 
-    [ContextMenu("TEST / First Two (CQ)-> PS")]
-    void Test_PairFirstTwo()
+    [ContextMenu("TEST / 0,1(CQ)-> PS")]
+    void PairFirstTwoINQueue()
     {
         if (CustomerQueue.Count < 2) return;
-        if (CustomerQueue[0].occupier == null) return;
-        if (CustomerQueue[1].occupier == null) return;
+        if (CustomerQueue[0].occupier == null || CustomerQueue[1].occupier == null) return;
 
-        TryAssignPair(
-            CustomerQueue[0].occupier,
-            CustomerQueue[1].occupier
-        );
+        TryAssignPair(CustomerQueue[0].occupier, CustomerQueue[1].occupier);
     }
 
 
-    public void QueueActive(bool airplaneticket) // bool name was random
+    public IEnumerator QueueActive(bool airplaneticket) // bool name was random
     // call this in SOE or something
     {
         if (airplaneticket)
         {
             InvokeRepeating(nameof(UpdateQueue), 0f, 3f);
-            StartCoroutine(Q2RS());
+
+            // Q2RS
+            StartCoroutine(Q2RSLoop());
+
+            // Destruction
+            StartCoroutine(PSDestroyCycle());
+            StartCoroutine(RSDestroyCycle());
+            
+            yield break;
         }
     else
         {
@@ -91,6 +94,8 @@ public class NPCQueue : MonoBehaviour
 
             foreach (var slot in randomSlots) { if (slot.occupier != null) SetObstacle(slot.slotLoc, false); }
             foreach (var p in pairSlots) { if (p.occupierA != null) SetObstacle(p.slotA, false); if (p.occupierB != null) SetObstacle(p.slotB, false); }
+        
+            yield break;
         }
     }
 
@@ -139,12 +144,13 @@ public class NPCQueue : MonoBehaviour
 
     public void DequeueCustomer(GameObject customer)
     {
+        if (CustomerQueue.Count == 0) return;
     for (int i = 0; i < CustomerQueue.Count; i++)
     {
         if (CustomerQueue[i].occupier == customer) // is this you?
         { 
             //Debug.Log (customer.name + " : Bye !");
-            //customer.GetComponent<CharAnimations>().CallAnim("Bye");
+            //customer.GetComponent<CharAnimations>().CallAnimByTrigger("Bye");
             CustomerQueue[i].occupier = null; // bye
             SetObstacle(CustomerQueue[i].slotLoc, false); 
 
@@ -168,7 +174,7 @@ public class NPCQueue : MonoBehaviour
         foreach (var slot in randomSlots)
         { if (slot.occupier == customer)
         { slot.occupier = null; 
-        SetObstacle(slot.slotLoc, false);//new need test
+        SetObstacle(slot.slotLoc, false);
          break; } }
     }
     public void ReleaseFromPS(GameObject customer)
@@ -187,28 +193,36 @@ public class NPCQueue : MonoBehaviour
         ReleaseFromPS(customer);
     }
 
-    IEnumerator Q2RS()
+    (GameObject customer, RandomSlot slot) Q2RS(GameObject customer)
     {
-        yield return new WaitForSeconds(Random.Range(4f, 8f));
+        if (CustomerQueue.Count == 0)
+            return (null, null);
 
-        if (CustomerQueue.Count == 0) yield break;
-        var first = CustomerQueue[0].occupier;
-        if (first == null) yield break;
+        DequeueCustomer(customer);
 
-        DequeueCustomer(first);
+        var slot = GetRS();
+        if (slot == null)
+            return (customer, null);
 
-        RandomSlot slot = GetRS();
-        if (slot == null) yield break;
-
-        slot.occupier = first;
+        slot.occupier = customer;
         SetObstacle(slot.slotLoc, true);
 
-        var mover = first.GetComponent<AgentMover>();
-        mover.currentDestination = slot.slotLoc;
-        mover.agent.destination = slot.slotLoc.position;
+        var agentM = customer.GetComponent<AgentMover>();
+        agentM.currentDestination = slot.slotLoc;
+        agentM.agent.destination = slot.slotLoc.position;
 
-        StartCoroutine(RSCycle(first, slot));
+        Debug.Log($"<color=green>Q2RS: </color>{customer.name} → {slot.slotLoc.name}");
+        return (customer, slot);
     }
+    IEnumerator Q2RSLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Q2RS_Delay.Random);
+            Q2RS(CustomerQueue[0].occupier);
+        }
+    }
+
 
     RandomSlot GetRS()
     {
@@ -217,14 +231,24 @@ public class NPCQueue : MonoBehaviour
         return free[Random.Range(0, free.Count)];
     }
 
-    IEnumerator RSCycle(GameObject customer, RandomSlot slot)
+    IEnumerator RSDestroyCycle()
     {
-        yield return new WaitForSeconds(Random.Range(8f, 12f));
-        if (slot.occupier != customer) yield break;
-        Debug.Log (customer.name + " : Bye !");
-        customer.GetComponent<CharAnimations>().CallAnim("Bye");
+        while (true)
+        {
+            var occupied = randomSlots.FindAll(r => r.occupier != null &&
+                r.occupier.GetComponent<AgentMover>()?.reachedRS == true);
 
-        slot.occupier = null; SetObstacle(slot.slotLoc, false);
+            if (occupied.Count <2) {yield return new WaitForSeconds(4f);continue;}
+            
+            var slot = occupied[Random.Range(0, occupied.Count)];
+            yield return new WaitForSeconds(RS_Destroy.Random);
+
+            Debug.Log($"<color=red>RSDestroy: </color>{slot.slotLoc.name}, {slot.occupier.name}");
+            Debug.Log (slot.occupier.name + " : Bye !");
+            slot.occupier.GetComponent<CharAnimations>().CallAnimByTrigger("Bye");
+
+            slot.occupier = null; SetObstacle(slot.slotLoc, false);
+        }
     }
 
     public bool TryAssignPair(GameObject a, GameObject b)
@@ -236,12 +260,51 @@ public class NPCQueue : MonoBehaviour
         slot.occupierA = a; slot.occupierB = b;
         SetObstacle(slot.slotA, true); SetObstacle(slot.slotB, true); 
 
+        Debug.Log($"<color=pink>TryAssignPair: </color>{a.name}, {b.name} → {slot.slotA.parent.name}");
+
         var ma = a.GetComponent<AgentMover>(); var mb = b.GetComponent<AgentMover>();
 
+        ma.offsetDistance = ma.offsetDistance/2;
         ma.currentDestination = slot.slotA; ma.agent.destination = slot.slotA.position;
+        mb.offsetDistance = mb.offsetDistance/2;
         mb.currentDestination = slot.slotB; mb.agent.destination = slot.slotB.position;
 
+        ma.assignedPairSlot = slot; mb.assignedPairSlot = slot;
+        ma.PS_AorB = false; mb.PS_AorB = true;
+        ma.walkingtoPS = true; mb.walkingtoPS = true;
+        
         return true;
+    }
+
+    IEnumerator PSDestroyCycle()
+    {
+        while (true)
+        {
+            var occupied = pairSlots.FindAll(p =>
+            p.occupierA != null && p.occupierB != null &&
+            p.occupierA.GetComponent<AgentMover>()?.reachedPS == true &&
+            p.occupierB.GetComponent<AgentMover>()?.reachedPS == true
+            );
+
+            if (occupied.Count <2) {yield return new WaitForSeconds(4f);continue;}
+
+            float t = occupied.Count >= pairSlots.Count - 1
+                ? PS_Destroy.Random/2 /*almost full → faster*/ : PS_Destroy.Random; // default
+
+            var slot = occupied[Random.Range(0, occupied.Count)];
+
+            yield return new WaitForSeconds(t);
+
+            Debug.Log($"<color=red>PSDestroy: </color>{slot.slotA.parent.name}, {slot.occupierA.name}&{slot.occupierB.name}");
+            slot.occupierA.GetComponent<CharAnimations>()?.CallAnimByTrigger("Bye");
+            slot.occupierB.GetComponent<CharAnimations>()?.CallAnimByTrigger("Bye");
+
+            slot.occupierA = null;
+            slot.occupierB = null;
+
+            SetObstacle(slot.slotA, false);
+            SetObstacle(slot.slotB, false);
+        }
     }
 
     void SetObstacle(Transform slotTransform, bool active)
